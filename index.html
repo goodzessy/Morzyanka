@@ -1,2 +1,1652 @@
-<html lang="ru">\n[object Object]\n <meta charset="UTF-8">\n <meta name="viewport" content="width=device-width, initial-scale=1.0">\n [object Object]Морзянка — социальная сеть[object Object]\n <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\">\n [object Object]\n * {\n margin: 0;\n padding: 0;\n box-sizing: border-box;\n }\n \n :root {\n --bg-primary: #edeef0;\n --bg-secondary: #fff;\n --bg-card: #fafbfc;\n --text-primary: #000;\n --text-secondary: #555;\n --text-muted: #939393;\n --accent: #5181b8;\n --accent-hover: #4872a3;\n --border: #d3d9de;\n --shadow: rgba(0,0,0,0.1);\n --header-bg: linear-gradient(135deg, #5181b8 0%, #4872a3 100%);\n }\n \n body.theme-light {\n --bg-primary: #f0f2f5;\n --bg-secondary: #fff;\n --bg-card: #fafbfc;\n --text-primary: #1c1e21;\n --text-secondary: #555;\n --text-muted: #65676b;\n --accent: #1877f2;\n --accent-hover: #166fe5;\n --border: #ced0d4;\n --shadow: rgba(0,0,0,0.08);\n --header-bg: linear-gradient(135deg, #1877f2 0%, #166fe5 100%);\n }\n \n body.theme-dark {\n --bg-primary: #18191a;\n --bg-secondary: #242526;\n --bg-card: #3a3b3c;\n --text-primary: #e4e6eb;\n --text-secondary: #b0b3b8;\n --text-muted: #8a8d91;\n --accent: #2d88ff;\n --accent-hover: #1c6dd0;\n --border: #3e4042;\n --shadow: rgba(0,0,0,0.3);\n --header-bg: linear-gradient(135deg, #2d88ff 0%, #1c6dd0 100%);\n }\n \n body {\n font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;\n font-size: 13px;\n background: var(--bg-primary);\n color: var(--text-primary);\n transition: background 0.3s, color 0.3s;\n }\n \n a { color: var(--accent); text-decoration: none; }\n a:hover { text-decoration: underline; }\n \n #header {\n background: var(--header-bg);\n color: #fff;\n padding: 10px 0;\n box-shadow: 0 2px 8px var(--shadow);\n position: sticky;\n top: 0;\n z-index: 1000;\n }\n \n #header-inner {\n max-width: 1100px;\n margin: 0 auto;\n display: flex;\n align-items: center;\n justify-content: space-between;\n padding: 0 15px;\n }\n \n #logo {\n font-size: 20px;\n font-weight: bold;\n color: #fff;\n text-shadow: 0 1px 3px rgba(0,0,0,0.2);\n }\n \n #user-info {\n display: flex;\n align-items: center;\n gap: 12px;\n color: #fff;\n font-size: 13px;\n }\n \n button {\n background: rgba(255,255,255,0.2);\n border: none;\n color: #fff;\n padding: 6px 12px;\n cursor: pointer;\n border-radius: 6px;\n font-size: 11px;\n transition: background 0.2s;\n }\n \n button:hover { background: rgba(255,255,255,0.3); }\n \n #content {\n max-width: 1100px;\n margin: 20px auto;\n display: flex;\n gap: 15px;\n padding: 0 15px;\n }\n \n #left-menu { width: 200px; flex-shrink: 0; }\n \n #main-content {\n flex: 1;\n background: var(--bg-secondary);\n box-shadow: 0 2px 8px var(--shadow);\n border-radius: 8px;\n overflow: hidden;\n min-height: 500px;\n }\n \n .menu-item {\n background: var(--bg-card);\n border: 1px solid var(--border);\n padding: 12px 15px;\n margin-bottom: 8px;\n cursor: pointer;\n font-size: 13px;\n border-radius: 8px;\n transition: all 0.2s;\n display: flex;\n align-items: center;\n justify-content: space-between;\n }\n \n .menu-item:hover {\n background: var(--bg-secondary);\n transform: translateX(3px);\n }\n \n .menu-item.active {\n background: var(--accent);\n color: #fff;\n font-weight: 600;\n }\n \n .badge { background: #ff5c5c; color: #fff; padding: 2px 6px; font-size: 10px; border-radius: 10px; font-weight: bold; }\n \n #toast-container {\n position: fixed;\n top: 80px;\n right: 20px;\n z-index: 9999;\n display: flex;\n flex-direction: column;\n gap: 10px;\n }\n \n .toast {\n background: var(--bg-secondary);\n color: var(--text-primary);\n padding: 12px 18px;\n border-radius: 8px;\n box-shadow: 0 4px 12px var(--shadow);\n border-left: 4px solid var(--accent);\n min-width: 250px;\n animation: slideIn 0.3s ease;\n }\n \n @keyframes slideIn {\n from { transform: translateX(400px); opacity: 0; }\n to { transform: translateX(0); opacity: 1; }\n }\n \n #auth-screen {\n max-width: 420px;\n margin: 100px auto;\n background: var(--bg-secondary);\n padding: 30px;\n box-shadow: 0 4px 16px var(--shadow);\n border-radius: 12px;\n }\n \n .input-group { margin-bottom: 16px; }\n .input-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary); font-weight: 500; }\n .input-group input {\n width: 100%;\n padding: 10px 12px;\n border: 1px solid var(--border);\n font-size: 14px;\n border-radius: 8px;\n background: var(--bg-primary);\n color: var(--text-primary);\n }\n \n .btn-primary {\n background: var(--accent);\n color: #fff;\n border: none;\n padding: 10px 20px;\n cursor: pointer;\n font-size: 14px;\n border-radius: 8px;\n font-weight: 600;\n width: 100%;\n transition: background 0.2s;\n }\n \n .btn-primary:hover { background: var(--accent-hover); }\n \n .post-form { padding: 20px; border-bottom: 1px solid var(--border); }\n .post-form textarea {\n width: 100%;\n min-height: 80px;\n padding: 10px;\n border: 1px solid var(--border);\n font-family: inherit;\n font-size: 13px;\n resize: vertical;\n border-radius: 8px;\n background: var(--bg-primary);\n color: var(--text-primary);\n }\n \n .post-form-actions {\n display: flex;\n gap: 10px;\n margin-top: 10px;\n align-items: center;\n flex-wrap: wrap;\n }\n \n .post {\n padding: 20px;\n border-bottom: 1px solid var(--border);\n transition: background 0.2s;\n }\n \n .post:hover { background: var(--bg-card); }\n \n .post-header {\n display: flex;\n align-items: center;\n gap: 12px;\n margin-bottom: 10px;\n }\n \n .post-avatar {\n width: 40px;\n height: 40px;\n border-radius: 50%;\n background: var(--accent);\n display: flex;\n align-items: center;\n justify-content: center;\n color: #fff;\n font-weight: bold;\n font-size: 16px;\n flex-shrink: 0;\n }\n \n .post-author { font-weight: 600; color: var(--accent); font-size: 14px; }\n .post-date { color: var(--text-muted); font-size: 11px; margin-top: 2px; }\n .post-text { margin-bottom: 12px; font-size: 13px; line-height: 1.5; white-space: pre-wrap; }\n \n .media-preview { margin-top: 10px; max-width: 400px; border-radius: 8px; overflow: hidden; }\n .media-preview img { max-width: 100%; display: block; }\n \n .post-actions {\n display: flex;\n gap: 15px;\n margin-top: 10px;\n }\n \n .post-action-btn {\n background: none;\n border: none;\n color: var(--text-muted);\n cursor: pointer;\n font-size: 12px;\n padding: 5px 10px;\n border-radius: 6px;\n transition: all 0.2s;\n display: flex;\n align-items: center;\n gap: 5px;\n }\n \n .post-action-btn:hover {\n background: var(--bg-card);\n color: var(--accent);\n }\n \n .file-input-label {\n display: inline-block;\n background: var(--bg-card);\n color: var(--text-secondary);\n padding: 8px 14px;\n cursor: pointer;\n font-size: 12px;\n border-radius: 6px;\n border: 1px solid var(--border);\n transition: all 0.2s;\n }\n \n .file-input-label:hover {\n background: var(--accent);\n color: #fff;\n border-color: var(--accent);\n }\n \n input[type="file"] { display: none; }\n \n /* Stickers /\n .stickers-grid {\n display: grid;\n grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));\n gap: 10px;\n padding: 20px;\n }\n \n .sticker-item {\n width: 100px;\n height: 100px;\n background: var(--bg-card);\n border: 1px solid var(--border);\n display: flex;\n align-items: center;\n justify-content: center;\n cursor: pointer;\n border-radius: 8px;\n transition: all 0.2s;\n overflow: hidden;\n }\n \n .sticker-item img {\n width: 100%;\n height: 100%;\n object-fit: cover;\n }\n \n .sticker-item:hover {\n transform: scale(1.1);\n box-shadow: 0 4px 12px var(--shadow);\n }\n \n .sticker-pack {\n padding: 20px;\n border-bottom: 1px solid var(--border);\n }\n \n .sticker-pack-name { font-weight: 600; font-size: 14px; margin-bottom: 12px; }\n \n .sticker-pack-actions {\n display: flex;\n gap: 10px;\n margin-top: 10px;\n }\n \n .sticker-pack-btn {\n background: var(--accent);\n color: #fff;\n border: none;\n padding: 6px 12px;\n font-size: 12px;\n cursor: pointer;\n border-radius: 6px;\n transition: background 0.2s;\n }\n \n .sticker-pack-btn:hover { background: var(--accent-hover); }\n .sticker-pack-btn.delete { background: #ff5c5c; }\n .sticker-pack-btn.delete:hover { background: #e64646; }\n \n / Video Call */\n .video-call-container {\n display: flex;\n gap: 15px;\n padding: 20px;\n background: #000;\n border-radius: 8px;\n margin-bottom: 20px;\n }\n \n .video-box {\n flex: 1;\n background: #111;\n border-radius: 8px;\n overflow: hidden;\n min-height: 300px;\n position: relative;\n }\n \n .video-box video {\n width: 100%;\n height: 100%;\n object-fit: cover;\n }\n \n .video-label {\n position: absolute;\n bottom: 10px;\n left: 10px;\n background: rgba(0,0,0,0.6);\n color: #fff;\n padding: 5px 10px;\n border-radius: 4px;\n font-size: 12px;\n }\n \n .call-controls {\n display: flex;\n justify-content: center;\n gap: 15px;\n margin-top: 20px;\n }\n \n .call-control-btn {\n width: 50px;\n height: 50px;\n border-radius: 50%;\n border: none;\n font-size: 20px;\n cursor: pointer;\n transition: all 0.2s;\n }\n \n .call-control-btn.mute { background: #ff9800; color: #fff; }\n .call-control-btn.camera { background: #2196f3; color: #fff; }\n .call-control-btn.end-call { background: #f44336; color: #fff; }\n \n .friends-list { padding: 20px; }\n .friend-item {\n display: flex;\n align-items: center;\n gap: 12px;\n padding: 12px;\n border-bottom: 1px solid var(--border);\n }\n \n .friend-avatar {\n width: 40px;\n height: 40px;\n border-radius: 50%;\n background: var(--accent);\n display: flex;\n align-items: center;\n justify-content: center;\n color: #fff;\n font-weight: bold;\n }\n \n .friend-name { font-size: 14px; font-weight: 600; }\n .friend-username { font-size: 12px; color: var(--text-muted); }\n \n .friend-btn {\n background: var(--accent);\n color: #fff;\n border: none;\n padding: 6px 14px;\n font-size: 12px;\n cursor: pointer;\n border-radius: 6px;\n margin-left: auto;\n }\n \n .friend-btn.remove { background: #ff5c5c; }\n \n .call-btn {\n background: #5cb85c;\n color: #fff;\n border: none;\n padding: 12px 24px;\n margin: 8px;\n cursor: pointer;\n font-size: 14px;\n border-radius: 8px;\n transition: all 0.2s;\n }\n \n .call-btn:hover { background: #4cae4c; }\n .call-btn.end { background: #ff5c5c; }\n .call-btn.end:hover { background: #e64646; }\n \n .hidden { display: none; }\n .empty-state { padding: 60px 20px; text-align: center; color: var(--text-muted); }\n \n #page-title {\n padding: 20px;\n border-bottom: 1px solid var(--border);\n font-size: 18px;\n font-weight: 600;\n background: var(--bg-card);\n }\n \n .messages-container { display: flex; height: 550px; }\n .dialogs-list { border-right: 1px solid var(--border); overflow-y: auto; height: 550px; width: 250px; }\n .messages-area { flex: 1; display: flex; flex-direction: column; }\n .messages-list { flex: 1; overflow-y: auto; padding: 20px; }\n \n .message {\n margin-bottom: 15px;\n display: flex;\n gap: 10px;\n }\n \n .message.own { flex-direction: row-reverse; }\n .message-text { background: var(--bg-card); padding: 10px 14px; border-radius: 12px; font-size: 13px; }\n .message.own .message-text { background: var(--accent); color: #fff; }\n \n .message-input-area {\n border-top: 1px solid var(--border);\n padding: 15px;\n display: flex;\n gap: 10px;\n }\n \n .message-input-area input {\n flex: 1;\n padding: 10px;\n border: 1px solid var(--border);\n border-radius: 8px;\n background: var(--bg-primary);\n color: var(--text-primary);\n }\n \n @media (max-width: 768px) {\n #content { flex-direction: column; }\n #left-menu { width: 100%; display: flex; overflow-x: auto; gap: 8px; }\n .messages-container { flex-direction: column; height: auto; }\n .dialogs-list { height: 250px; border-right: none; border-bottom: 1px solid var(--border); width: 100%; }\n }\n [object Object]\n[object Object]\n<body class="theme-oldschool">\n\n<div id="toast-container">[object Object]\n\n<div id="auth-screen">\n <h2 style="text-align: center; margin-bottom: 20px;">🎵 Морзянка[object Object]\n <div id="login-form">\n <div class="input-group">\n [object Object]Логин[object Object]\n <input type="text" id="login-username" placeholder="Введите логин">\n [object Object]\n <div class="input-group">\n [object Object]Пароль[object Object]\n <input type="password" id="login-password" placeholder="Введите пароль">\n [object Object]\n <button class="btn-primary" onclick="login()">Войти[object Object]\n <div style="margin-top: 20px; text-align: center; font-size: 13px;">\n Нет аккаунта? <a href="#" onclick="showRegister(); return false;">Зарегистрироваться[object Object]\n [object Object]\n [object Object]\n \n <div id="register-form" class="hidden">\n <div class="input-group">\n [object Object]Логин[object Object]\n <input type="text" id="register-username" placeholder="Придумайте логин">\n [object Object]\n <div class="input-group">\n [object Object]Пароль[object Object]\n <input type="password" id="register-password" placeholder="Придумайте пароль">\n [object Object]\n <div class="input-group">\n [object Object]Имя[object Object]\n <input type="text" id="register-name" placeholder="Ваше имя">\n [object Object]\n <button class="btn-primary" onclick="register()">Зарегистрироваться[object Object]\n <div style="margin-top: 20px; text-align: center; font-size: 13px;">\n Уже есть аккаунт? <a href="#" onclick="showLogin(); return false;">Войти[object Object]\n [object Object]\n [object Object]\n[object Object]\n\n<div id="app" class="hidden">\n <div id="header">\n <div id="header-inner">\n <div id="logo" onclick="showSection('feed')">🎵 Морзянка[object Object]\n <div id="user-info">\n <span id="current-user-name">[object Object]\n <button onclick="switchTheme()">🌙 Тема[object Object]\n <button onclick="logout()">↪️ Выйти[object Object]\n [object Object]\n [object Object]\n [object Object]\n \n <div id="content">\n <div id="left-menu">\n <div class="menu-item active" onclick="showSection('feed')">📰 Лента[object Object]\n <div class="menu-item" onclick="showSection('wall')">👤 Моя страница[object Object]\n <div class="menu-item" onclick="showSection('friends')">👥 Друзья[object Object]\n <div class="menu-item" onclick="showSection('messages')">💬 Сообщения[object Object]\n <div class="menu-item" onclick="showSection('stickers')">✨ Стикеры[object Object]\n <div class="menu-item" onclick="showSection('calls')">☎️ Звонки[object Object]\n [object Object]\n \n <div id="main-content">\n <div id="page-title">📰 Лента[object Object]\n \n [object Object]\n <div id="feed-section">\n <div class="post-form">\n <textarea id="feed-post-text" placeholder="Что нового?">[object Object]\n <div class="post-form-actions">\n <label class="file-input-label" for="feed-post-file">📎 Фото[object Object]\n <input type="file" id="feed-post-file" accept="image/*,video/*">\n <button class="btn-primary" onclick="createGlobalPost()">Опубликовать[object Object]\n [object Object]\n [object Object]\n <div id="feed-posts-list">[object Object]\n [object Object]\n \n [object Object]\n <div id="wall-section" class="hidden">\n <div class="post-form">\n <textarea id="post-text" placeholder="Что нового на стене?">[object Object]\n <div class="post-form-actions">\n <label class="file-input-label" for="post-file">📎 Фото[object Object]\n <input type="file" id="post-file" accept="image/*,video/*">\n <button class="btn-primary" onclick="createPost()">Опубликовать[object Object]\n [object Object]\n [object Object]\n <div id="posts-list">[object Object]\n [object Object]\n \n [object Object]\n <div id="friends-section" class="hidden">\n <div class="friends-list">\n <h3 style="margin-bottom: 15px;">🔍 Найти друзей[object Object]\n <div style="display: flex; gap: 10px; margin-bottom: 20px;">\n <input type="text" id="friend-search" placeholder="Введите логин" style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px;">\n <button class="btn-primary" onclick="searchFriend()">Найти[object Object]\n [object Object]\n <div id="search-result">[object Object]\n <h3 style="margin: 25px 0 15px 0;">👥 Мои друзья[object Object]\n <div id="friends-list">[object Object]\n [object Object]\n [object Object]\n \n [object Object]\n <div id="messages-section" class="hidden">\n <div class="messages-container">\n <div class="dialogs-list" id="dialogs-list">[object Object]\n <div class="messages-area">\n <div id="messages-list" class="messages-list"><div class="empty-state">Выберите диалог[object Object][object Object]\n <div class="message-input-area" id="message-input-area" style="display: none;">\n <input type="text" id="message-text" placeholder="Сообщение...">\n <button class="btn-primary" onclick="sendMessage()">↩️[object Object]\n [object Object]\n [object Object]\n [object Object]\n [object Object]\n \n [object Object]\n <div id="stickers-section" class="hidden">\n <div style="padding: 20px;">\n [object Object]✨ Создать стикерпак[object Object]\n <div style="display: flex; gap: 10px; margin: 15px 0;">\n <input type="text" id="new-pack-name" placeholder="Название пака" style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px;">\n <button class="btn-primary" onclick="createStickerPack()">Создать[object Object]\n [object Object]\n <hr style="margin: 20px 0;">\n <h3 style="margin-bottom: 15px;">🎨 Общие стикеры[object Object]\n <div id="common-stickers" class="stickers-grid">[object Object]\n [object Object]\n <div id="sticker-packs">[object Object]\n [object Object]\n \n [object Object]\n <div id="calls-section" class="hidden">\n <div style="padding: 40px; text-align: center;">\n [object Object]☎️ Видео звонки[object Object]\n <p style="margin: 20px 0; color: var(--text-muted);">Выберите друга для звонка[object Object]\n <div id="call-friends-list">[object Object]\n \n <div id="active-call" class="hidden">\n <div class="video-call-container">\n <div class="video-box">\n <video id="local-video" autoplay muted playsinline>[object Object]\n <div class="video-label">Вы[object Object]\n [object Object]\n <div class="video-box">\n <video id="remote-video" autoplay playsinline>[object Object]\n <div class="video-label"><span id="call-partner-name">[object Object][object Object]\n [object Object]\n [object Object]\n <div class="call-controls">\n <button class="call-control-btn mute" id="mute-btn" onclick="toggleMute()">🎤[object Object]\n <button class="call-control-btn camera" id="camera-btn" onclick="toggleCamera()">📹[object Object]\n <button class="call-control-btn end-call" onclick="endCall()">☎️[object Object]\n [object Object]\n [object Object]\n [object Object]\n [object Object]\n [object Object]\n [object Object]\n[object Object]\n\n<script type="module">\nimport { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';\nimport { getDatabase, ref, set, get, push, onValue, update, remove } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';\nimport { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js';\n\nconst firebaseConfig = {\n apiKey: "AIzaSyATP4YQNDWjbgR5RkEUWjbKZlmvkNfKJZQ",\n authDomain: "fastcupteams.firebaseapp.com",\n databaseURL: "https://fastcupteams-default-rtdb.firebaseio.com\",\n projectId: "fastcupteams",\n storageBucket: "fastcupteams.firebasestorage.app",\n messagingSenderId: "156257388825",\n appId: "1:156257388825:web:5887c19c4ce27e7f8b1d88"\n};\n\nconst app = initializeApp(firebaseConfig);\nconst db = getDatabase(app);\nconst storage = getStorage(app);\n\nlet currentUser = null;\nlet currentDialog = null;\nlet currentTheme = localStorage.getItem('theme') || 'oldschool';\nlet peerConnection = null;\nlet localStream = null;\nlet currentCallFriend = null;\nlet isMuted = false;\nlet isCameraOff = false;\n\nconst COMMON_STICKERS = [\n '😀', '😂', '😍', '🥰', '😘', '🤔', '😎', '🤯',\n '👍', '👌', '🙌', '👏', '💯', '🔥', '⭐', '💎',\n '🎉', '🎊', '🎈', '🎁', '💝', '💐', '❤️', '💔'\n];\n\nwindow.showToast = (msg, type = 'info') => {\n const el = document.createElement('div');\n el.className = toast;\n el.textContent = msg;\n document.getElementById('toast-container').appendChild(el);\n setTimeout(() => el.remove(), 3000);\n};\n\nwindow.switchTheme = () => {\n const themes = ['oldschool', 'light', 'dark'];\n const idx = themes.indexOf(currentTheme);\n currentTheme = themes[(idx + 1) % themes.length];\n document.body.className = theme-${currentTheme};\n localStorage.setItem('theme', currentTheme);\n showToast(Тема: ${currentTheme});\n};\n\nwindow.showRegister = () => {\n document.getElementById('login-form').classList.add('hidden');\n document.getElementById('register-form').classList.remove('hidden');\n};\n\nwindow.showLogin = () => {\n document.getElementById('register-form').classList.add('hidden');\n document.getElementById('login-form').classList.remove('hidden');\n};\n\nwindow.register = async () => {\n const username = document.getElementById('register-username').value.trim();\n const password = document.getElementById('register-password').value;\n const name = document.getElementById('register-name').value.trim();\n \n if (!username || !password || !name) {\n showToast('Заполните все поля', 'error');\n return;\n }\n \n const users = (await get(ref(db, 'users'))).val() || {};\n if (Object.values(users).find(u => u.username === username)) {\n showToast('Логин занят', 'error');\n return;\n }\n \n const uid = push(ref(db, 'users')).key;\n await set(ref(db, users/${uid}), {\n username, password, name, blocked: false, spamCount: 0, admin: false, online: false\n });\n \n showToast('Регистрация успешна!', 'success');\n showLogin();\n};\n\nwindow.login = async () => {\n const username = document.getElementById('login-username').value.trim();\n const password = document.getElementById('login-password').value;\n \n if (!username || !password) {\n showToast('Заполните логин и пароль', 'error');\n return;\n }\n \n const users = (await get(ref(db, 'users'))).val() || {};\n const user = Object.entries(users).find(([, u]) => u.username === username && u.password === password);\n \n if (!user) {\n showToast('Неверные данные', 'error');\n return;\n }\n \n if (user[1].blocked) {\n showToast('Аккаунт заблокирован', 'error');\n return;\n }\n \n currentUser = { id: user[0], ...user[1] };\n await update(ref(db, users/${currentUser.id}), { online: true, lastSeen: Date.now() });\n \n document.getElementById('auth-screen').classList.add('hidden');\n document.getElementById('app').classList.remove('hidden');\n document.getElementById('current-user-name').textContent = currentUser.name;\n \n document.body.className = theme-${currentTheme};\n loadGlobalFeed();\n loadWall();\n loadFriends();\n loadDialogs();\n loadStickerPacks();\n loadCommonStickers();\n};\n\nwindow.logout = async () => {\n if (currentUser) {\n await update(ref(db, users/${currentUser.id}), { online: false });\n }\n currentUser = null;\n document.getElementById('app').classList.add('hidden');\n document.getElementById('auth-screen').classList.remove('hidden');\n};\n\nwindow.showSection = (section) => {\n document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));\n event.target.classList.add('active');\n \n document.getElementById('feed-section').classList.add('hidden');\n document.getElementById('wall-section').classList.add('hidden');\n document.getElementById('friends-section').classList.add('hidden');\n document.getElementById('messages-section').classList.add('hidden');\n document.getElementById('stickers-section').classList.add('hidden');\n document.getElementById('calls-section').classList.add('hidden');\n \n const titles = {\n feed: '📰 Лента',\n wall: '👤 Моя страница',\n friends: '👥 Друзья',\n messages: '💬 Сообщения',\n stickers: '✨ Стикеры',\n calls: '☎️ Звонки'\n };\n \n document.getElementById('page-title').textContent = titles[section];\n document.getElementById(${section}-section).classList.remove('hidden');\n \n if (section === 'calls') loadCallFriends();\n};\n\nwindow.createGlobalPost = async () => {\n const text = document.getElementById('feed-post-text').value.trim();\n const file = document.getElementById('feed-post-file').files[0];\n \n if (!text && !file) return;\n \n let mediaUrl = null;\n if (file) {\n const ref_storage = storageRef(storage, posts/${Date.now()}_${file.name});\n await uploadBytes(ref_storage, file);\n mediaUrl = await getDownloadURL(ref_storage);\n }\n \n await push(ref(db, 'globalPosts'), {\n userId: currentUser.id,\n userName: currentUser.name,\n text, mediaUrl,\n timestamp: Date.now(),\n likes: {}\n });\n \n document.getElementById('feed-post-text').value = '';\n document.getElementById('feed-post-file').value = '';\n showToast('Пост опубликован!', 'success');\n};\n\nfunction loadGlobalFeed() {\n onValue(ref(db, 'globalPosts'), async (snap) => {\n const posts = snap.val() || {};\n const list = document.getElementById('feed-posts-list');\n list.innerHTML = '';\n \n Object.entries(posts).reverse().forEach(([id, post]) => {\n const likes = post.likes ? Object.keys(post.likes).length : 0;\n const liked = post.likes && post.likes[currentUser.id];\n \n const el = document.createElement('div');\n el.className = 'post';\n el.innerHTML = \n <div class=\"post-header\">\n <div class=\"post-avatar\">${post.userName[0].toUpperCase()}</div>\n <div>\n <div class=\"post-author\">${post.userName}</div>\n <div class=\"post-date\">${new Date(post.timestamp).toLocaleString('ru')}</div>\n </div>\n </div>\n <div class=\"post-text\">${post.text || ''}</div>\n ${post.mediaUrl ? <div class="media-preview"><img src="${post.mediaUrl}">[object Object]: ''}\n <div class=\"post-actions\">\n <button class=\"post-action-btn ${liked ? 'liked' : ''}\" onclick=\"toggleLike('${id}')\">\n ❤️ ${likes}\n </button>\n </div>\n ;\n list.appendChild(el);\n });\n });\n}\n\nwindow.toggleLike = async (postId) => {\n const path = globalPosts/${postId}/likes/${currentUser.id};\n const snap = await get(ref(db, path));\n if (snap.exists()) {\n await remove(ref(db, path));\n } else {\n await set(ref(db, path), true);\n }\n};\n\nwindow.createPost = async () => {\n const text = document.getElementById('post-text').value.trim();\n const file = document.getElementById('post-file').files[0];\n \n if (!text && !file) return;\n \n let mediaUrl = null;\n if (file) {\n const ref_storage = storageRef(storage, wall/${Date.now()}_${file.name});\n await uploadBytes(ref_storage, file);\n mediaUrl = await getDownloadURL(ref_storage);\n }\n \n await push(ref(db, userPosts/${currentUser.id}), {\n userId: currentUser.id,\n userName: currentUser.name,\n text, mediaUrl,\n timestamp: Date.now(),\n likes: {}\n });\n \n document.getElementById('post-text').value = '';\n document.getElementById('post-file').value = '';\n showToast('Пост добавлен!', 'success');\n};\n\nfunction loadWall() {\n onValue(ref(db, userPosts/${currentUser.id}), (snap) => {\n const posts = snap.val() || {};\n const list = document.getElementById('posts-list');\n list.innerHTML = '';\n \n Object.entries(posts).reverse().forEach(([id, post]) => {\n const likes = post.likes ? Object.keys(post.likes).length : 0;\n const liked = post.likes && post.likes[currentUser.id];\n \n const el = document.createElement('div');\n el.className = 'post';\n el.innerHTML = \n <div class=\"post-header\">\n <div class=\"post-avatar\">${post.userName[0].toUpperCase()}</div>\n <div>\n <div class=\"post-author\">${post.userName}</div>\n <div class=\"post-date\">${new Date(post.timestamp).toLocaleString('ru')}</div>\n </div>\n </div>\n <div class=\"post-text\">${post.text || ''}</div>\n ${post.mediaUrl ? <div class="media-preview"><img src="${post.mediaUrl}">[object Object]: ''}\n <div class=\"post-actions\">\n <button class=\"post-action-btn ${liked ? 'liked' : ''}\" onclick=\"toggleLike('${id}')\">❤️ ${likes}</button>\n </div>\n ;\n list.appendChild(el);\n });\n });\n}\n\nwindow.searchFriend = async () => {\n const search = document.getElementById('friend-search').value.trim();\n if (!search) return;\n \n const users = (await get(ref(db, 'users'))).val() || {};\n const found = Object.entries(users).find(([id, u]) => u.username === search && id !== currentUser.id);\n const result = document.getElementById('search-result');\n \n if (found) {\n result.innerHTML = \n <div class=\"friend-item\">\n <div class=\"friend-avatar\">${found[1].name[0].toUpperCase()}</div>\n <div>\n <div class=\"friend-name\">${found[1].name}</div>\n <div class=\"friend-username\">@${found[1].username}</div>\n </div>\n <button class=\"friend-btn\" onclick=\"addFriend('${found[0]}')\">Добавить</button>\n </div>\n ;\n } else {\n result.innerHTML = '<p style="color: var(--text-muted);">Не найдено[object Object]';\n }\n};\n\nwindow.addFriend = async (friendId) => {\n await set(ref(db, friends/${currentUser.id}/${friendId}), true);\n await set(ref(db, friends/${friendId}/${currentUser.id}), true);\n showToast('Друг добавлен!', 'success');\n loadFriends();\n};\n\nwindow.removeFriend = async (friendId) => {\n await remove(ref(db, friends/${currentUser.id}/${friendId}));\n await remove(ref(db, friends/${friendId}/${currentUser.id}));\n showToast('Друг удалён', 'success');\n loadFriends();\n};\n\nfunction loadFriends() {\n onValue(ref(db, friends/${currentUser.id}), async (snap) => {\n const friendIds = snap.val() || {};\n const list = document.getElementById('friends-list');\n list.innerHTML = '';\n \n for (const friendId in friendIds) {\n const user = (await get(ref(db, users/${friendId}))).val();\n if (user) {\n const el = document.createElement('div');\n el.className = 'friend-item';\n el.innerHTML = \n <div class=\"friend-avatar\">${user.name[0].toUpperCase()}</div>\n <div style=\"flex: 1;\">\n <div class=\"friend-name\">${user.name}</div>\n <div class=\"friend-username\">@${user.username}</div>\n </div>\n <button class=\"friend-btn\" onclick=\"openDialog('${friendId}')\">Написать</button>\n <button class=\"friend-btn remove\" onclick=\"removeFriend('${friendId}')\">Удалить</button>\n ;\n list.appendChild(el);\n }\n }\n if (Object.keys(friendIds).length === 0) list.innerHTML = '<p class="empty-state">Нет друзей[object Object]';\n });\n}\n\nfunction loadDialogs() {\n onValue(ref(db, friends/${currentUser.id}), async (snap) => {\n const friendIds = snap.val() || {};\n const list = document.getElementById('dialogs-list');\n list.innerHTML = '';\n \n for (const friendId in friendIds) {\n const user = (await get(ref(db, users/${friendId}))).val();\n if (user) {\n const el = document.createElement('div');\n el.className = 'dialog-item';\n el.textContent = user.name;\n el.onclick = () => openDialog(friendId);\n list.appendChild(el);\n }\n }\n });\n}\n\nwindow.openDialog = (friendId) => {\n currentDialog = friendId;\n const chatId = [currentUser.id, friendId].sort().join('');\n \n onValue(ref(db, messages/${chatId}), async (snap) => {\n const messages = snap.val() || {};\n const list = document.getElementById('messages-list');\n list.innerHTML = '';\n \n Object.entries(messages).forEach(([, msg]) => {\n const el = document.createElement('div');\n el.className = message ${msg.userId === currentUser.id ? 'own' : ''};\n el.innerHTML = <div class=\"message-text\">${msg.text || ''}</div>;\n list.appendChild(el);\n });\n \n list.scrollTop = list.scrollHeight;\n });\n \n document.getElementById('message-input-area').style.display = 'flex';\n};\n\nwindow.sendMessage = async () => {\n if (!currentDialog) return;\n const text = document.getElementById('message-text').value.trim();\n if (!text) return;\n \n const chatId = [currentUser.id, currentDialog].sort().join('');\n await push(ref(db, messages/${chatId}), {\n userId: currentUser.id,\n text,\n timestamp: Date.now()\n });\n \n document.getElementById('message-text').value = '';\n};\n\nfunction loadCommonStickers() {\n const grid = document.getElementById('common-stickers');\n grid.innerHTML = '';\n COMMON_STICKERS.forEach(sticker => {\n const el = document.createElement('div');\n el.className = 'sticker-item';\n el.textContent = sticker;\n el.style.fontSize = '50px';\n grid.appendChild(el);\n });\n}\n\nwindow.createStickerPack = async () => {\n const name = document.getElementById('new-pack-name').value.trim();\n if (!name) return;\n \n await push(ref(db, stickerPacks/${currentUser.id}), {\n name,\n stickers: []\n });\n \n document.getElementById('new-pack-name').value = '';\n showToast('Стикерпак создан!', 'success');\n};\n\nfunction loadStickerPacks() {\n onValue(ref(db, stickerPacks/${currentUser.id}), (snap) => {\n const packs = snap.val() || {};\n const div = document.getElementById('sticker-packs');\n div.innerHTML = '';\n \n Object.entries(packs).forEach(([packId, pack]) => {\n const el = document.createElement('div');\n el.className = 'sticker-pack';\n \n let grid = '<div class="stickers-grid">';\n (pack.stickers || []).forEach(sticker => {\n if (sticker.includes('/')) {\n grid += <div class=\"sticker-item\"><img src=\"${sticker}\" alt=\"sticker\"></div>;\n } else {\n grid += <div class=\"sticker-item\" style=\"font-size: 50px;\">${sticker}</div>;\n }\n });\n grid += '[object Object]';\n \n el.innerHTML = \n <div class=\"sticker-pack-name\">${pack.name}</div>\n ${grid}\n <div class=\"sticker-pack-actions\">\n <button class=\"sticker-pack-btn\" onclick=\"addStickerToPackModal('${packId}')\">➕ Добавить</button>\n <button class=\"sticker-pack-btn delete\" onclick=\"deleteStickerPack('${packId}')\">🗑️</button>\n </div>\n ;\n div.appendChild(el);\n });\n });\n}\n\nwindow.addStickerToPackModal = (packId) => {\n const url = prompt('Вставьте URL стикера или эмодзи:');\n if (url) addStickerToPack(packId, url);\n};\n\nwindow.addStickerToPack = async (packId, sticker) => {\n const pack = (await get(ref(db, stickerPacks/${currentUser.id}/${packId}))).val();\n const stickers = pack.stickers || [];\n stickers.push(sticker);\n await update(ref(db, stickerPacks/${currentUser.id}/${packId}), { stickers });\n showToast('Стикер добавлен!', 'success');\n};\n\nwindow.deleteStickerPack = async (packId) => {\n if (confirm('Удалить пак?')) {\n await remove(ref(db, stickerPacks/${currentUser.id}/${packId}));\n showToast('Пак удалён', 'success');\n }\n};\n\nfunction loadCallFriends() {\n onValue(ref(db, friends/${currentUser.id}), async (snap) => {\n const friendIds = snap.val() || {};\n const list = document.getElementById('call-friends-list');\n list.innerHTML = '';\n \n for (const friendId in friendIds) {\n const user = (await get(ref(db, users/${friendId}))).val();\n if (user) {\n const btn = document.createElement('button');\n btn.className = 'call-btn';\n btn.textContent = 📞 Позвонить ${user.name};\n btn.onclick = () => startCall(friendId, user.name);\n list.appendChild(btn);\n }\n }\n if (Object.keys(friendIds).length === 0) {\n list.innerHTML = '<p class="empty-state">Нет друзей[object Object]';\n }\n });\n}\n\nwindow.startCall = async (friendId, friendName) => {\n currentCallFriend = friendId;\n document.getElementById('call-friends-list').classList.add('hidden');\n document.getElementById('active-call').classList.remove('hidden');\n document.getElementById('call-partner-name').textContent = friendName;\n \n try {\n localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });\n document.getElementById('local-video').srcObject = localStream;\n \n peerConnection = new RTCPeerConnection({\n iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }]\n });\n \n localStream.getTracks().forEach(track => {\n peerConnection.addTrack(track, localStream);\n });\n \n peerConnection.ontrack = (event) => {\n document.getElementById('remote-video').srcObject = event.streams[0];\n };\n \n const offer = await peerConnection.createOffer();\n await peerConnection.setLocalDescription(offer);\n \n showToast(Звоним ${friendName}..., 'success');\n } catch (err) {\n showToast('Ошибка доступа к камере', 'error');\n endCall();\n }\n};\n\nwindow.toggleMute = () => {\n if (localStream) {\n localStream.getAudioTracks().forEach(track => {\n isMuted = !isMuted;\n track.enabled = !isMuted;\n });\n const btn = document.getElementById('mute-btn');\n btn.textContent = isMuted ? '🔇' : '🎤';\n }\n};\n\nwindow.toggleCamera = () => {\n if (localStream) {\n localStream.getVideoTracks().forEach(track => {\n isCameraOff = !isCameraOff;\n track.enabled = !isCameraOff;\n });\n const btn = document.getElementById('camera-btn');\n btn.textContent = isCameraOff ? '📹❌' : '📹';\n }\n};\n\nwindow.endCall = () => {\n if (localStream) localStream.getTracks().forEach(track => track.stop());\n if (peerConnection) peerConnection.close();\n \n document.getElementById('call-friends-list').classList.remove('hidden');\n document.getElementById('active-call').classList.add('hidden');\n document.getElementById('local-video').srcObject = null;\n document.getElementById('remote-video').srcObject = null;\n \n isMuted = false;\n isCameraOff = false;\n showToast('Звонок завершён', 'success');\n};\n[object Object]\n[object Object]\n[object Object]"}}]
-[object Object]
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Морзянка — социальная сеть</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #edeef0;
+            --bg-secondary: #fff;
+            --bg-card: #fafbfc;
+            --text-primary: #000;
+            --text-secondary: #555;
+            --text-muted: #939393;
+            --accent: #5181b8;
+            --accent-hover: #4872a3;
+            --border: #d3d9de;
+            --shadow: rgba(0,0,0,0.1);
+            --header-bg: linear-gradient(135deg, #5181b8 0%, #4872a3 100%);
+        }
+        
+        body.theme-light {
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #fff;
+            --bg-card: #fafbfc;
+            --text-primary: #1c1e21;
+            --text-secondary: #555;
+            --text-muted: #65676b;
+            --accent: #1877f2;
+            --accent-hover: #166fe5;
+            --border: #ced0d4;
+            --shadow: rgba(0,0,0,0.08);
+            --header-bg: linear-gradient(135deg, #1877f2 0%, #166fe5 100%);
+        }
+        
+        body.theme-dark {
+            --bg-primary: #18191a;
+            --bg-secondary: #242526;
+            --bg-card: #3a3b3c;
+            --text-primary: #e4e6eb;
+            --text-secondary: #b0b3b8;
+            --text-muted: #8a8d91;
+            --accent: #2d88ff;
+            --accent-hover: #1c6dd0;
+            --border: #3e4042;
+            --shadow: rgba(0,0,0,0.3);
+            --header-bg: linear-gradient(135deg, #2d88ff 0%, #1c6dd0 100%);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background 0.3s, color 0.3s;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Header */
+        #header {
+            background: var(--header-bg);
+            color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 8px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        #header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+        #logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        #logo:hover {
+            text-decoration: none;
+        }
+        #user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+            font-size: 13px;
+        }
+        #theme-switcher {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 11px;
+            transition: background 0.2s;
+        }
+        #theme-switcher:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        #logout-btn {
+            background: rgba(0,0,0,0.2);
+            border: none;
+            color: #fff;
+            padding: 6px 14px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+        #logout-btn:hover {
+            background: rgba(0,0,0,0.3);
+        }
+        
+        /* Layout */
+        #content {
+            max-width: 1100px;
+            margin: 20px auto;
+            display: flex;
+            gap: 15px;
+            padding: 0 15px;
+        }
+        #left-menu {
+            width: 200px;
+            flex-shrink: 0;
+        }
+        #main-content {
+            flex: 1;
+            background: var(--bg-secondary);
+            box-shadow: 0 2px 8px var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
+            min-height: 500px;
+        }
+        
+        .menu-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .menu-item:hover {
+            background: var(--bg-secondary);
+            transform: translateX(3px);
+        }
+        .menu-item.active {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 2px 6px var(--shadow);
+        }
+        .menu-item .badge {
+            background: #ff5c5c;
+            color: #fff;
+            padding: 2px 6px;
+            font-size: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        /* Toast notifications */
+        #toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 12px 18px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+            border-left: 4px solid var(--accent);
+            min-width: 250px;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.error {
+            border-left-color: #ff5c5c;
+        }
+        .toast.success {
+            border-left-color: #5cb85c;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Auth */
+        #auth-screen {
+            max-width: 420px;
+            margin: 100px auto;
+            background: var(--bg-secondary);
+            padding: 30px;
+            box-shadow: 0 4px 16px var(--shadow);
+            border-radius: 12px;
+        }
+        #auth-screen h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 16px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border 0.2s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        .auth-switch {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        /* Wall & Global Feed */
+        .post-form {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .post-form textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            font-family: inherit;
+            font-size: 13px;
+            resize: vertical;
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .post-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .post-form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            align-items: center;
+        }
+        .post {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+        .post:hover {
+            background: var(--bg-card);
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .post-author-info {
+            flex: 1;
+        }
+        .post-author {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .post-date {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        .post-text {
+            margin-bottom: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+        .badge-spam {
+            background: #ff5c5c;
+            color: #fff;
+            padding: 2px 6px;
+            font-size: 10px;
+            border-radius: 4px;
+        }
+        .badge-admin {
+            background: #ffa500;
+            color: #fff;
+            padding: 2px 6px;
+            font-size: 10px;
+            border-radius: 4px;
+        }
+        .post-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .post-action-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .post-action-btn:hover {
+            background: var(--bg-card);
+            color: var(--accent);
+        }
+        .post-action-btn.liked {
+            color: #ff5c5c;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .admin-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 5px 12px;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .admin-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .admin-btn.delete:hover {
+            background: #ff5c5c;
+            border-color: #ff5c5c;
+        }
+        
+        /* Comments */
+        .comments-section {
+            margin-top: 15px;
+            padding-left: 52px;
+        }
+        .comment {
+            padding: 10px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        .comment-author {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+        .comment-input {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .comment-input input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .comment-input button {
+            padding: 8px 15px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        /* Friends */
+        .friends-list {
+            padding: 20px;
+        }
+        .friend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+        .friend-item:hover {
+            background: var(--bg-card);
+        }
+        .friend-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            position: relative;
+        }
+        .online-indicator {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background: #5cb85c;
+            border: 2px solid var(--bg-secondary);
+            border-radius: 50%;
+        }
+        .friend-info {
+            flex: 1;
+        }
+        .friend-name {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .friend-username {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .friend-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .friend-btn:hover {
+            background: var(--accent-hover);
+        }
+        .friend-btn.remove {
+            background: #ff5c5c;
+        }
+        .friend-btn.remove:hover {
+            background: #e64646;
+        }
+        
+        /* Messages */
+        .dialogs-list {
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            height: 550px;
+        }
+        .dialog-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dialog-item:hover {
+            background: var(--bg-card);
+        }
+        .dialog-item.active {
+            background: var(--accent);
+            color: #fff;
+        }
+        .dialog-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .messages-container {
+            display: flex;
+            height: 550px;
+        }
+        .messages-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .messages-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        .message-content {
+            max-width: 60%;
+        }
+        .message-author {
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--accent);
+            margin-bottom: 3px;
+        }
+        .message-text {
+            background: var(--bg-card);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        .message.own {
+            flex-direction: row-reverse;
+        }
+        .message.own .message-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .message.own .message-text {
+            background: var(--accent);
+            color: #fff;
+        }
+        .message-input-area {
+            border-top: 1px solid var(--border);
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .message-input-area input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            font-size: 13px;
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        /* Stickers */
+        .sticker-pack {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .sticker-pack-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .stickers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 10px;
+        }
+        .sticker-item {
+            width: 90px;
+            height: 90px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 40px;
+            transition: all 0.2s;
+        }
+        .sticker-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        
+        /* Media */
+        .media-preview {
+            margin-top: 10px;
+            max-width: 400px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .media-preview img {
+            max-width: 100%;
+            display: block;
+        }
+        
+        /* Call */
+        .call-screen {
+            padding: 40px;
+            text-align: center;
+        }
+        .call-screen h3 {
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+        .call-btn {
+            background: #5cb85c;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            margin: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .call-btn:hover {
+            background: #4cae4c;
+            transform: translateY(-2px);
+        }
+        .call-btn.end {
+            background: #ff5c5c;
+        }
+        .call-btn.end:hover {
+            background: #e64646;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            #content {
+                flex-direction: column;
+            }
+            #left-menu {
+                width: 100%;
+                display: flex;
+                overflow-x: auto;
+                gap: 8px;
+            }
+            .menu-item {
+                white-space: nowrap;
+                min-width: 120px;
+            }
+            .messages-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .dialogs-list {
+                height: 250px;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            #toast-container {
+                top: 70px;
+                right: 10px;
+                left: 10px;
+            }
+            .toast {
+                min-width: auto;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #page-title {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 18px;
+            font-weight: 600;
+            background: var(--bg-card);
+        }
+        
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        
+        .file-input-label {
+            display: inline-block;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .file-input-label:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body class="theme-oldschool">
+
+<div id="toast-container"></div>
+
+<div id="auth-screen">
+    <h2>Добро пожаловать в Морзянку</h2>
+    <div id="login-form">
+        <div class="input-group">
+            <label>Логин</label>
+            <input type="text" id="login-username" placeholder="Введите логин">
+        </div>
+        <div class="input-group">
+            <label>Пароль</label>
+            <input type="password" id="login-password" placeholder="Введите пароль">
+        </div>
+        <button class="btn-primary" onclick="login()">Войти</button>
+        <div class="auth-switch">
+            Нет аккаунта? <a href="#" onclick="showRegister(); return false;">Зарегистрироваться</a>
+        </div>
+    </div>
+    
+    <div id="register-form" class="hidden">
+        <div class="input-group">
+            <label>Логин</label>
+            <input type="text" id="register-username" placeholder="Придумайте логин">
+        </div>
+        <div class="input-group">
+            <label>Пароль</label>
+            <input type="password" id="register-password" placeholder="Придумайте пароль">
+        </div>
+        <div class="input-group">
+            <label>Имя</label>
+            <input type="text" id="register-name" placeholder="Ваше имя">
+        </div>
+        <button class="btn-primary" onclick="register()">Зарегистрироваться</button>
+        <div class="auth-switch">
+            Уже есть аккаунт? <a href="#" onclick="showLogin(); return false;">Войти</a>
+        </div>
+    </div>
+</div>
+
+<div id="app" class="hidden">
+    <div id="header">
+        <div id="header-inner">
+            <a href="#" id="logo" onclick="showSection('feed'); return false;">Морзянка</a>
+            <div id="user-info">
+                <span id="current-user-name"></span>
+                <button id="theme-switcher" onclick="switchTheme()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Тема</button>
+                <button id="logout-btn" onclick="logout()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/><polyline points="17 17 22 12 17 7"/><line x1="12" y1="12" x2="22" y2="12"/></svg> Выйти</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="content">
+        <div id="left-menu">
+            <div class="menu-item active" onclick="showSection('feed')">Лента</div>
+            <div class="menu-item" onclick="showSection('wall')">Моя страница</div>
+            <div class="menu-item" onclick="showSection('friends')">Друзья</div>
+            <div class="menu-item" onclick="showSection('messages')">
+                Сообщения
+                <span class="badge hidden" id="unread-badge">0</span>
+            </div>
+            <div class="menu-item" onclick="showSection('stickers')">Стикеры</div>
+            <div class="menu-item" onclick="showSection('calls')">Звонки</div>
+        </div>
+        
+        <div id="main-content">
+            <div id="page-title">Лента</div>
+            
+            <!-- Global Feed -->
+            <div id="feed-section">
+                <div class="post-form">
+                    <textarea id="feed-post-text" placeholder="Что нового?"></textarea>
+                    <div class="post-form-actions">
+                                                 <label class="file-input-label" for="feed-post-file"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 0 19.8-4.3M22 12.5a10 10 0 0 0-19.8 4.2"/></svg> Прикрепить</label>
+                        <input type="file" id="feed-post-file" accept="image/*,video/*,audio/*">
+                        <button class="btn-primary" onclick="createGlobalPost()">Опубликовать</button>
+                    </div>
+                </div>
+                <div id="feed-posts-list"></div>
+            </div>
+            
+            <!-- Wall -->
+            <div id="wall-section" class="hidden">
+                <div class="post-form">
+                    <textarea id="post-text" placeholder="Что нового?"></textarea>
+                    <div class="post-form-actions">
+                        <label class="file-input-label" for="post-file">📎 Прикрепить</label>
+                        <input type="file" id="post-file" accept="image/*,video/*,audio/*">
+                        <button class="btn-primary" onclick="createPost()">Отправить</button>
+                    </div>
+                </div>
+                <div id="posts-list"></div>
+            </div>
+            
+            <!-- Friends -->
+            <div id="friends-section" class="hidden">
+                <div class="friends-list">
+                    <h3 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Поиск друзей</h3>
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <input type="text" id="friend-search" placeholder="Введите логин" style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-primary); color: var(--text-primary);">
+                        <button class="btn-primary" onclick="searchFriend()">Найти</button>
+                    </div>
+                    <div id="search-result"></div>
+                    
+                    <h3 style="margin: 25px 0 15px 0; font-size: 16px; font-weight: 600;">Мои друзья</h3>
+                    <div id="friends-list"></div>
+                </div>
+            </div>
+            
+            <!-- Messages -->
+            <div id="messages-section" class="hidden">
+                <div class="messages-container">
+                    <div class="dialogs-list" style="width: 250px;" id="dialogs-list"></div>
+                    <div class="messages-area">
+                        <div id="messages-list" class="messages-list">
+                            <div class="empty-state">Выберите диалог</div>
+                        </div>
+                        <div class="message-input-area" id="message-input-area" style="display: none;">
+                            <input type="text" id="message-text" placeholder="Написать сообщение...">
+                                                         <label class="file-input-label" for="message-file"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 0 19.8-4.3M22 12.5a10 10 0 0 0-19.8 4.2"/></svg></label>
+                            <input type="file" id="message-file" accept="image/*,video/*,audio/*">
+                                                         <button class="btn-primary" onclick="sendMessage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.8429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 L4.13399899,1.16831269 C3.34915502,0.9 2.40734225,0.9 1.77946707,1.4429026 C0.994623095,2.0602188 0.837654326,3.0028031 1.15159189,3.78829004 L3.03521743,10.2292831 C3.03521743,10.3863805 3.19218622,10.5434779 3.50612381,10.5434779 L16.6915026,11.3289648 C16.6915026,11.3289648 17.1624089,11.3289648 17.1624089,11.9462809 C17.1624089,12.563597 16.6915026,12.4744748 16.6915026,12.4744748 Z"/></svg></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stickers -->
+            <div id="stickers-section" class="hidden">
+                <div style="padding: 20px;">
+                    <h3 style="margin-bottom: 12px; font-size: 16px; font-weight: 600;">Создать стикерпак</h3>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="new-pack-name" placeholder="Название пака" style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-primary); color: var(--text-primary);">
+                        <button class="btn-primary" onclick="createStickerPack()">Создать</button>
+                    </div>
+                </div>
+                <div id="sticker-packs"></div>
+            </div>
+            
+            <!-- Calls -->
+            <div id="calls-section" class="hidden">
+                <div class="call-screen">
+                    <h3>Звонки</h3>
+                    <p style="margin-bottom: 20px; color: var(--text-muted);">Выберите друга для звонка</p>
+                    <div id="call-friends-list"></div>
+                    <div id="active-call" class="hidden">
+                        <p style="font-size: 16px; margin-bottom: 15px;">Идёт звонок с <span id="call-partner"></span></p>
+                        <button class="call-btn end" onclick="endCall()">Завершить звонок</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+import { getDatabase, ref, set, get, push, onValue, update, remove, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyATP4YQNDWjbgR5RkEUWjbKZlmvkNfKJZQ",
+    authDomain: "fastcupteams.firebaseapp.com",
+    databaseURL: "https://fastcupteams-default-rtdb.firebaseio.com",
+    projectId: "fastcupteams",
+    storageBucket: "fastcupteams.firebasestorage.app",
+    messagingSenderId: "156257388825",
+    appId: "1:156257388825:web:5887c19c4ce27e7f8b1d88",
+    measurementId: "G-7G2RLM9LBP"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+window.db = db;
+window.storage = storage;
+window.dbRef = ref;
+window.dbSet = set;
+window.dbGet = get;
+window.dbPush = push;
+window.dbOnValue = onValue;
+window.dbUpdate = update;
+window.dbRemove = remove;
+window.storageRef = storageRef;
+window.uploadBytes = uploadBytes;
+window.getDownloadURL = getDownloadURL;
+
+let currentUser = null;
+let currentDialog = null;
+let spamCount = {};
+let blockedUsers = new Set();
+let currentTheme = localStorage.getItem('theme') || 'oldschool';
+
+// Toast notifications
+window.showToast = function(message, type = 'info') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+};
+
+// Theme switcher
+window.switchTheme = function() {
+    const themes = ['oldschool', 'light', 'dark'];
+    const currentIndex = themes.indexOf(currentTheme);
+    currentTheme = themes[(currentIndex + 1) % themes.length];
+    document.body.className = `theme-${currentTheme}`;
+    localStorage.setItem('theme', currentTheme);
+    showToast(`Тема изменена на ${currentTheme === 'oldschool' ? 'олдскул' : currentTheme === 'light' ? 'светлую' : 'тёмную'}`, 'success');
+};
+
+document.body.className = `theme-${currentTheme}`;
+
+// Avatar helper
+function getAvatar(name) {
+    return name ? name[0].toUpperCase() : '?';
+}
+
+window.showRegister = function() {
+    document.getElementById('login-form').classList.add('hidden');
+    document.getElementById('register-form').classList.remove('hidden');
+};
+
+window.showLogin = function() {
+    document.getElementById('register-form').classList.add('hidden');
+    document.getElementById('login-form').classList.remove('hidden');
+};
+
+window.register = async function() {
+    const username = document.getElementById('register-username').value.trim();
+    const password = document.getElementById('register-password').value;
+    const name = document.getElementById('register-name').value.trim();
+    
+    if (!username || !password || !name) {
+        showToast('Заполните все поля', 'error');
+        return;
+    }
+    
+    const usersRef = dbRef(db, 'users');
+    const snapshot = await dbGet(usersRef);
+    const users = snapshot.val() || {};
+    
+    if (Object.values(users).find(u => u.username === username)) {
+        showToast('Этот логин уже занят', 'error');
+        return;
+    }
+    
+    const userId = push(usersRef).key;
+    await dbSet(dbRef(db, `users/${userId}`), {
+        username,
+        password,
+        name,
+        blocked: false,
+        spamCount: 0,
+        admin: false,
+        online: false
+    });
+    
+    showToast('Регистрация успешна', 'success');
+    showLogin();
+};
+
+window.login = async function() {
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value;
+    
+    if (!username || !password) {
+        showToast('Заполните все поля', 'error');
+        return;
+    }
+    
+    const usersRef = dbRef(db, 'users');
+    const snapshot = await dbGet(usersRef);
+    const users = snapshot.val() || {};
+    
+    const user = Object.entries(users).find(([id, u]) => u.username === username && u.password === password);
+    
+    if (!user) {
+        showToast('Неверный логин или пароль', 'error');
+        return;
+    }
+    
+    if (user[1].blocked) {
+        showToast('Ваш аккаунт заблокирован за спам', 'error');
+        return;
+    }
+    
+    currentUser = { id: user[0], ...user[1] };
+    await dbUpdate(dbRef(db, `users/${currentUser.id}`), { online: true, lastSeen: Date.now() });
+    
+    document.getElementById('auth-screen').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    document.getElementById('current-user-name').textContent = currentUser.name;
+    
+    loadGlobalFeed();
+    loadWall();
+    loadFriends();
+    loadDialogs();
+    loadStickerPacks();
+    updateUnreadCount();
+    
+    setInterval(() => {
+        if (currentUser) {
+            dbUpdate(dbRef(db, `users/${currentUser.id}`), { lastSeen: Date.now() });
+        }
+    }, 30000);
+};
+
+window.logout = async function() {
+    if (currentUser) {
+        await dbUpdate(dbRef(db, `users/${currentUser.id}`), { online: false, lastSeen: Date.now() });
+    }
+    currentUser = null;
+    document.getElementById('app').classList.add('hidden');
+    document.getElementById('auth-screen').classList.remove('hidden');
+    showLogin();
+};
+
+window.showSection = function(section) {
+    document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    document.getElementById('feed-section').classList.add('hidden');
+    document.getElementById('wall-section').classList.add('hidden');
+    document.getElementById('friends-section').classList.add('hidden');
+    document.getElementById('messages-section').classList.add('hidden');
+    document.getElementById('stickers-section').classList.add('hidden');
+    document.getElementById('calls-section').classList.add('hidden');
+    
+    const titles = {
+        feed: 'Лента',
+        wall: 'Моя страница',
+        friends: 'Друзья',
+        messages: 'Сообщения',
+        stickers: 'Стикеры',
+        calls: 'Звонки'
+    };
+    
+    document.getElementById('page-title').textContent = titles[section];
+    document.getElementById(`${section}-section`).classList.remove('hidden');
+    
+    if (section === 'calls') loadCallFriends();
+};
+
+// Global Feed
+window.createGlobalPost = async function() {
+    const text = document.getElementById('feed-post-text').value.trim();
+    const file = document.getElementById('feed-post-file').files[0];
+    
+    if (!text && !file) return;
+    
+    const userSpamKey = `${currentUser.id}_${Date.now()}`;
+    spamCount[currentUser.id] = (spamCount[currentUser.id] || 0) + 1;
+    
+    if (spamCount[currentUser.id] > 5) {
+        await dbUpdate(dbRef(db, `users/${currentUser.id}`), { blocked: true, spamCount: spamCount[currentUser.id] });
+        showToast('Вы заблокированы за спам', 'error');
+        logout();
+        return;
+    }
+    
+    setTimeout(() => {
+        spamCount[currentUser.id] = Math.max(0, (spamCount[currentUser.id] || 0) - 1);
+    }, 10000);
+    
+    let mediaUrl = null;
+    if (file) {
+        const fileRef = storageRef(storage, `global_posts/${Date.now()}_${file.name}`);
+        await uploadBytes(fileRef, file);
+        mediaUrl = await getDownloadURL(fileRef);
+    }
+    
+    const postsRef = dbRef(db, 'globalPosts');
+    await dbPush(postsRef, {
+        userId: currentUser.id,
+        userName: currentUser.name,
+        text,
+        mediaUrl,
+        timestamp: Date.now(),
+        spamCount: spamCount[currentUser.id],
+        likes: {}
+    });
+    
+    document.getElementById('feed-post-text').value = '';
+    document.getElementById('feed-post-file').value = '';
+    showToast('Пост опубликован', 'success');
+};
+
+async function loadGlobalFeed() {
+    const postsRef = dbRef(db, 'globalPosts');
+    dbOnValue(postsRef, async (snapshot) => {
+        const posts = snapshot.val() || {};
+        const postsList = document.getElementById('feed-posts-list');
+        postsList.innerHTML = '';
+        
+        const usersSnapshot = await dbGet(dbRef(db, 'users'));
+        const users = usersSnapshot.val() || {};
+        
+        Object.entries(posts).reverse().forEach(([id, post]) => {
+            const postEl = document.createElement('div');
+            postEl.className = 'post';
+            
+            const isSpammer = post.spamCount >= 5;
+            const likesCount = post.likes ? Object.keys(post.likes).length : 0;
+            const isLiked = post.likes && post.likes[currentUser.id];
+            
+            const postUser = Object.values(users).find(u => u.userName === post.userName || u.name === post.userName);
+            const isAdmin = postUser && postUser.admin;
+            
+            postEl.innerHTML = `
+                <div class="post-header">
+                    <div class="post-avatar">${getAvatar(post.userName)}</div>
+                    <div class="post-author-info">
+                        <div class="post-author">
+                            ${post.userName}
+                            ${isSpammer ? '<span class="badge-spam">СПАМЕР</span>' : ''}
+                            ${isAdmin ? '<span class="badge-admin">АДМИН</span>' : ''}
+                        </div>
+                        <div class="post-date">${new Date(post.timestamp).toLocaleString('ru')}</div>
+                    </div>
+                </div>
+                <div class="post-text">${post.text || ''}</div>
+                ${post.mediaUrl ? `<div class="media-preview"><img src="${post.mediaUrl}"></div>` : ''}
+                <div class="post-actions">
+                    <button class="post-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('globalPosts', '${id}')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> ${likesCount}
+                    </button>
+                    <button class="post-action-btn" onclick="toggleComments('${id}')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Комментарии
+                    </button>
+                </div>
+                ${currentUser.admin ? `
+                    <div class="admin-actions">
+                        <button class="admin-btn" onclick="editPost('globalPosts', '${id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Редактировать</button>
+                        <button class="admin-btn delete" onclick="deletePost('globalPosts', '${id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg> Удалить</button>
+                    </div>
+                ` : ''}
+                <div class="comments-section" id="comments-${id}" style="display: none;">
+                    <div id="comments-list-${id}"></div>
+                    <div class="comment-input">
+                        <input type="text" id="comment-input-${id}" placeholder="Написать комментарий...">
+                        <button onclick="addComment('globalPosts', '${id}')">Отправить</button>
+                    </div>
+                </div>
+            `;
+            postsList.appendChild(postEl);
+            
+            loadComments('globalPosts', id);
+        });
+    });
+}
+
+window.toggleLike = async function(collection, postId) {
+    const postRef = dbRef(db, `${collection}/${postId}/likes/${currentUser.id}`);
+    const snapshot = await dbGet(postRef);
+    
+    if (snapshot.exists()) {
+        await dbRemove(postRef);
+    } else {
+        await dbSet(postRef, true);
+    }
+};
+
+window.toggleComments = function(postId) {
+    const commentsSection = document.getElementById(`comments-${postId}`);
+    commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+};
+
+window.addComment = async function(collection, postId) {
+    const input = document.getElementById(`comment-input-${postId}`);
+    const text = input.value.trim();
+    if (!text) return;
+    
+    const commentsRef = dbRef(db, `${collection}/${postId}/comments`);
+    await dbPush(commentsRef, {
+        userId: currentUser.id,
+        userName: currentUser.name,
+        text,
+        timestamp: Date.now()
+    });
+    
+    input.value = '';
+};
+
+function loadComments(collection, postId) {
+    const commentsRef = dbRef(db, `${collection}/${postId}/comments`);
+    dbOnValue(commentsRef, (snapshot) => {
+        const comments = snapshot.val() || {};
+        const commentsList = document.getElementById(`comments-list-${postId}`);
+        if (!commentsList) return;
+        
+        commentsList.innerHTML = '';
+        Object.entries(comments).forEach(([id, comment]) => {
+            const commentEl = document.createElement('div');
+            commentEl.className = 'comment';
+            commentEl.innerHTML = `
+                <div class="comment-author">${comment.userName}</div>
+                <div>${comment.text}</div>
+            `;
+            commentsList.appendChild(commentEl);
+        });
+    });
+}
+
+window.editPost = async function(collection, postId) {
+    const newText = prompt('Новый текст поста:');
+    if (newText === null) return;
+    await dbUpdate(dbRef(db, `${collection}/${postId}`), { text: newText });
+    showToast('Пост обновлён', 'success');
+};
+
+window.deletePost = async function(collection, postId) {
+    if (!confirm('Удалить пост?')) return;
+    await dbRemove(dbRef(db, `${collection}/${postId}`));
+    showToast('Пост удалён', 'success');
+};
+
+// Wall (personal)
+window.createPost = async function() {
+    const text = document.getElementById('post-text').value.trim();
+    const file = document.getElementById('post-file').files[0];
+    
+    if (!text && !file) return;
+    
+    let mediaUrl = null;
+    if (file) {
+        const fileRef = storageRef(storage, `posts/${Date.now()}_${file.name}`);
+        await uploadBytes(fileRef, file);
+        mediaUrl = await getDownloadURL(fileRef);
+    }
+    
+    const postsRef = dbRef(db, `userPosts/${currentUser.id}`);
+    await dbPush(postsRef, {
+        userId: currentUser.id,
+        userName: currentUser.name,
+        text,
+        mediaUrl,
+        timestamp: Date.now(),
+        likes: {}
+    });
+    
+    document.getElementById('post-text').value = '';
+    document.getElementById('post-file').value = '';
+    showToast('Пост добавлен', 'success');
+};
+
+async function loadWall() {
+    const postsRef = dbRef(db, `userPosts/${currentUser.id}`);
+    dbOnValue(postsRef, (snapshot) => {
+        const posts = snapshot.val() || {};
+        const postsList = document.getElementById('posts-list');
+        postsList.innerHTML = '';
+        
+        Object.entries(posts).reverse().forEach(([id, post]) => {
+            const postEl = document.createElement('div');
+            postEl.className = 'post';
+            
+            const likesCount = post.likes ? Object.keys(post.likes).length : 0;
+            const isLiked = post.likes && post.likes[currentUser.id];
+            
+            postEl.innerHTML = `
+                <div class="post-header">
+                    <div class="post-avatar">${getAvatar(post.userName)}</div>
+                    <div class="post-author-info">
+                        <div class="post-author">${post.userName}</div>
+                        <div class="post-date">${new Date(post.timestamp).toLocaleString('ru')}</div>
+                    </div>
+                </div>
+                <div class="post-text">${post.text || ''}</div>
+                ${post.mediaUrl ? `<div class="media-preview"><img src="${post.mediaUrl}"></div>` : ''}
+                <div class="post-actions">
+                    <button class="post-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('userPosts/${currentUser.id}', '${id}')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> ${likesCount}
+                    </button>
+                </div>
+            `;
+            postsList.appendChild(postEl);
+        });
+    });
+}
+
+// Friends
+window.searchFriend = async function() {
+    const search = document.getElementById('friend-search').value.trim();
+    if (!search) return;
+    
+    const usersRef = dbRef(db, 'users');
+    const snapshot = await dbGet(usersRef);
+    const users = snapshot.val() || {};
+    
+    const found = Object.entries(users).find(([id, u]) => u.username === search && id !== currentUser.id);
+    const resultDiv = document.getElementById('search-result');
+    
+    if (found) {
+        resultDiv.innerHTML = `
+            <div class="friend-item">
+                <div class="friend-avatar">${getAvatar(found[1].name)}</div>
+                <div class="friend-info">
+                    <div class="friend-name">${found[1].name}</div>
+                    <div class="friend-username">@${found[1].username}</div>
+                </div>
+                <button class="friend-btn" onclick="addFriend('${found[0]}')">Добавить</button>
+            </div>
+        `;
+    } else {
+        resultDiv.innerHTML = '<p style="color: var(--text-muted); padding: 10px;">Пользователь не найден</p>';
+    }
+};
+
+window.addFriend = async function(friendId) {
+    await dbSet(dbRef(db, `friends/${currentUser.id}/${friendId}`), true);
+    await dbSet(dbRef(db, `friends/${friendId}/${currentUser.id}`), true);
+    showToast('Друг добавлен', 'success');
+    loadFriends();
+};
+
+window.removeFriend = async function(friendId) {
+    await dbRemove(dbRef(db, `friends/${currentUser.id}/${friendId}`));
+    await dbRemove(dbRef(db, `friends/${friendId}/${currentUser.id}`));
+    showToast('Друг удалён', 'success');
+    loadFriends();
+};
+
+async function loadFriends() {
+    const friendsRef = dbRef(db, `friends/${currentUser.id}`);
+    dbOnValue(friendsRef, async (snapshot) => {
+        const friendIds = snapshot.val() || {};
+        const friendsList = document.getElementById('friends-list');
+        friendsList.innerHTML = '';
+        
+        for (const friendId in friendIds) {
+            const userSnapshot = await dbGet(dbRef(db, `users/${friendId}`));
+            const user = userSnapshot.val();
+            
+            if (user) {
+                const isOnline = user.online && (Date.now() - user.lastSeen < 60000);
+                
+                const friendEl = document.createElement('div');
+                friendEl.className = 'friend-item';
+                friendEl.innerHTML = `
+                    <div class="friend-avatar">
+                        ${getAvatar(user.name)}
+                        ${isOnline ? '<div class="online-indicator"></div>' : ''}
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">${user.name}</div>
+                        <div class="friend-username">@${user.username}</div>
+                    </div>
+                    <button class="friend-btn" onclick="openDialog('${friendId}')">Написать</button>
+                    <button class="friend-btn remove" onclick="removeFriend('${friendId}')">Удалить</button>
+                `;
+                friendsList.appendChild(friendEl);
+            }
+        }
+        
+        if (Object.keys(friendIds).length === 0) {
+            friendsList.innerHTML = '<div class="empty-state">У вас пока нет друзей</div>';
+        }
+    });
+}
+
+async function loadDialogs() {
+    const friendsRef = dbRef(db, `friends/${currentUser.id}`);
+    dbOnValue(friendsRef, async (snapshot) => {
+        const friendIds = snapshot.val() || {};
+        const dialogsList = document.getElementById('dialogs-list');
+        dialogsList.innerHTML = '';
+        
+        for (const friendId in friendIds) {
+            const userSnapshot = await dbGet(dbRef(db, `users/${friendId}`));
+            const user = userSnapshot.val();
+            
+            if (user) {
+                const dialogEl = document.createElement('div');
+                dialogEl.className = 'dialog-item';
+                dialogEl.innerHTML = `
+                    <div class="dialog-avatar">${getAvatar(user.name)}</div>
+                    <span>${user.name}</span>
+                `;
+                dialogEl.onclick = () => openDialog(friendId);
+                dialogsList.appendChild(dialogEl);
+            }
+        }
+    });
+}
+
+function updateUnreadCount() {
+    // Placeholder for unread messages count
+    const badge = document.getElementById('unread-badge');
+    badge.textContent = '0';
+    badge.classList.add('hidden');
+}
+
+window.openDialog = function(friendId) {
+    currentDialog = friendId;
+    document.querySelectorAll('.dialog-item').forEach(item => item.classList.remove('active'));
+    event.target.closest('.dialog-item').classList.add('active');
+    
+    const chatId = [currentUser.id, friendId].sort().join('_');
+    const messagesRef = dbRef(db, `messages/${chatId}`);
+    
+    dbOnValue(messagesRef, async (snapshot) => {
+        const messages = snapshot.val() || {};
+        const messagesList = document.getElementById('messages-list');
+        messagesList.innerHTML = '';
+        
+        const friendSnapshot = await dbGet(dbRef(db, `users/${friendId}`));
+        const friendName = friendSnapshot.val().name;
+        
+        Object.entries(messages).forEach(([id, msg]) => {
+            const messageEl = document.createElement('div');
+            messageEl.className = `message ${msg.userId === currentUser.id ? 'own' : ''}`;
+            messageEl.innerHTML = `
+                <div class="message-avatar">${getAvatar(msg.userId === currentUser.id ? currentUser.name : friendName)}</div>
+                <div class="message-content">
+                    <div class="message-author">${msg.userId === currentUser.id ? 'Вы' : friendName}</div>
+                    <div class="message-text">
+                        ${msg.text || ''}
+                        ${msg.mediaUrl ? `<div class="media-preview"><img src="${msg.mediaUrl}"></div>` : ''}
+                    </div>
+                </div>
+            `;
+            messagesList.appendChild(messageEl);
+        });
+        
+        messagesList.scrollTop = messagesList.scrollHeight;
+    });
+    
+    document.getElementById('message-input-area').style.display = 'flex';
+};
+
+window.sendMessage = async function() {
+    if (!currentDialog) return;
+    
+    const text = document.getElementById('message-text').value.trim();
+    const file = document.getElementById('message-file').files[0];
+    
+    if (!text && !file) return;
+    
+    let mediaUrl = null;
+    if (file) {
+        const fileRef = storageRef(storage, `messages/${Date.now()}_${file.name}`);
+        await uploadBytes(fileRef, file);
+        mediaUrl = await getDownloadURL(fileRef);
+    }
+    
+    const chatId = [currentUser.id, currentDialog].sort().join('_');
+    const messagesRef = dbRef(db, `messages/${chatId}`);
+    
+    await dbPush(messagesRef, {
+        userId: currentUser.id,
+        text,
+        mediaUrl,
+        timestamp: Date.now()
+    });
+    
+    document.getElementById('message-text').value = '';
+    document.getElementById('message-file').value = '';
+};
+
+window.createStickerPack = async function() {
+    const name = document.getElementById('new-pack-name').value.trim();
+    if (!name) return;
+    
+    const packsRef = dbRef(db, `stickerPacks/${currentUser.id}`);
+    await dbPush(packsRef, {
+        name,
+        stickers: ['😀', '😂', '😍', '🤔', '👍', '🔥', '💯', '🎉']
+    });
+    
+    document.getElementById('new-pack-name').value = '';
+    showToast('Стикерпак создан', 'success');
+};
+
+async function loadStickerPacks() {
+    const packsRef = dbRef(db, `stickerPacks/${currentUser.id}`);
+    dbOnValue(packsRef, (snapshot) => {
+        const packs = snapshot.val() || {};
+        const packsDiv = document.getElementById('sticker-packs');
+        packsDiv.innerHTML = '';
+        
+        Object.entries(packs).forEach(([id, pack]) => {
+            const packEl = document.createElement('div');
+            packEl.className = 'sticker-pack';
+            
+            let stickersHtml = '';
+            (pack.stickers || []).forEach(sticker => {
+                stickersHtml += `<div class="sticker-item">${sticker}</div>`;
+            });
+            
+            packEl.innerHTML = `
+                <div class="sticker-pack-name">${pack.name}</div>
+                <div class="stickers-grid">${stickersHtml}</div>
+            `;
+            packsDiv.appendChild(packEl);
+        });
+        
+        if (Object.keys(packs).length === 0) {
+            packsDiv.innerHTML = '<div class="empty-state">У вас пока нет стикерпаков</div>';
+        }
+    });
+}
+
+async function loadCallFriends() {
+    const friendsRef = dbRef(db, `friends/${currentUser.id}`);
+    const snapshot = await dbGet(friendsRef);
+    const friendIds = snapshot.val() || {};
+    const callList = document.getElementById('call-friends-list');
+    callList.innerHTML = '';
+    
+    for (const friendId in friendIds) {
+        const userSnapshot = await dbGet(dbRef(db, `users/${friendId}`));
+        const user = userSnapshot.val();
+        
+        if (user) {
+            const btn = document.createElement('button');
+            btn.className = 'call-btn';
+            btn.textContent = `Позвонить ${user.name}`;
+            btn.onclick = () => startCall(friendId, user.name);
+            callList.appendChild(btn);
+        }
+    }
+    
+    if (Object.keys(friendIds).length === 0) {
+        callList.innerHTML = '<div class="empty-state">У вас пока нет друзей для звонков</div>';
+    }
+}
+
+window.startCall = function(friendId, friendName) {
+    document.getElementById('call-friends-list').classList.add('hidden');
+    document.getElementById('active-call').classList.remove('hidden');
+    document.getElementById('call-partner').textContent = friendName;
+    showToast(`Звоним ${friendName}...`, 'info');
+};
+
+window.endCall = function() {
+    document.getElementById('call-friends-list').classList.remove('hidden');
+    document.getElementById('active-call').classList.add('hidden');
+    showToast('Звонок завершён', 'success');
+};
+
+if (currentUser) {
+    loadGlobalFeed();
+    loadWall();
+    loadFriends();
+    loadDialogs();
+    loadStickerPacks();
+}
+</script>
+
+</body>
+</html>
