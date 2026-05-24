@@ -1,1666 +1,608 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Морзянка — социальная сеть</title>
+    <title>VibMess - Group Messenger & Calls</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'vibm-purple': '#7c3aed',
+                        'vibm-light-purple': '#a78bfa',
+                        'vibm-dark-bg': '#0f0f1e',
+                        'vibm-dark-sidebar': '#1a1a2e',
+                        'vibm-dark-text': '#f0f0f0',
+                        'vibm-light-bg': '#f9f9fb'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.min.js"></script>
+    
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js" crossorigin></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         :root {
-            --bg-primary: #edeef0;
-            --bg-secondary: #fff;
-            --bg-card: #fafbfc;
-            --text-primary: #000;
-            --text-secondary: #555;
-            --text-muted: #939393;
-            --accent: #5181b8;
-            --accent-hover: #4872a3;
-            --border: #d3d9de;
-            --shadow: rgba(0,0,0,0.1);
-            --header-bg: linear-gradient(135deg, #5181b8 0%, #4872a3 100%);
+            --vibm-purple: #7c3aed;
+            --vibm-light-purple: #a78bfa;
+            --vibm-dark-bg: #0f0f1e;
+            --vibm-dark-sidebar: #1a1a2e;
+            --vibm-dark-text: #f0f0f0;
         }
-        
-        body.theme-light {
-            --bg-primary: #f0f2f5;
-            --bg-secondary: #fff;
-            --bg-card: #fafbfc;
-            --text-primary: #1c1e21;
-            --text-secondary: #555;
-            --text-muted: #65676b;
-            --accent: #1877f2;
-            --accent-hover: #166fe5;
-            --border: #ced0d4;
-            --shadow: rgba(0,0,0,0.08);
-            --header-bg: linear-gradient(135deg, #1877f2 0%, #166fe5 100%);
-        }
-        
-        body.theme-dark {
-            --bg-primary: #18191a;
-            --bg-secondary: #242526;
-            --bg-card: #3a3b3c;
-            --text-primary: #e4e6eb;
-            --text-secondary: #b0b3b8;
-            --text-muted: #8a8d91;
-            --accent: #2d88ff;
-            --accent-hover: #1c6dd0;
-            --border: #3e4042;
-            --shadow: rgba(0,0,0,0.3);
-            --header-bg: linear-gradient(135deg, #2d88ff 0%, #1c6dd0 100%);
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            font-size: 13px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background 0.3s, color 0.3s;
-        }
-        a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Header */
-        #header {
-            background: var(--header-bg);
-            color: #fff;
-            padding: 10px 0;
-            box-shadow: 0 2px 8px var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        #header-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-        }
-        #logo {
-            font-size: 20px;
-            font-weight: bold;
-            color: #fff;
-            text-decoration: none;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-        #logo:hover {
-            text-decoration: none;
-        }
-        #user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #fff;
-            font-size: 13px;
-        }
-        #theme-switcher {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: #fff;
-            padding: 6px 12px;
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 11px;
-            transition: background 0.2s;
-        }
-        #theme-switcher:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        #logout-btn {
-            background: rgba(0,0,0,0.2);
-            border: none;
-            color: #fff;
-            padding: 6px 14px;
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 12px;
-            transition: background 0.2s;
-        }
-        #logout-btn:hover {
-            background: rgba(0,0,0,0.3);
-        }
-        
-        /* Layout */
-        #content {
-            max-width: 1100px;
-            margin: 20px auto;
-            display: flex;
-            gap: 15px;
-            padding: 0 15px;
-        }
-        #left-menu {
-            width: 200px;
-            flex-shrink: 0;
-        }
-        #main-content {
-            flex: 1;
-            background: var(--bg-secondary);
-            box-shadow: 0 2px 8px var(--shadow);
-            border-radius: 8px;
-            overflow: hidden;
-            min-height: 500px;
-        }
-        
-        .menu-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            border-radius: 8px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .menu-item:hover {
-            background: var(--bg-secondary);
-            transform: translateX(3px);
-        }
-        .menu-item.active {
-            background: var(--accent);
-            color: #fff;
-            font-weight: 600;
-            box-shadow: 0 2px 6px var(--shadow);
-        }
-        .menu-item .badge {
-            background: #ff5c5c;
-            color: #fff;
-            padding: 2px 6px;
-            font-size: 10px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-        
-        /* Toast notifications */
-        #toast-container {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .toast {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            padding: 12px 18px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px var(--shadow);
-            border-left: 4px solid var(--accent);
-            min-width: 250px;
-            animation: slideIn 0.3s ease;
-        }
-        .toast.error {
-            border-left-color: #ff5c5c;
-        }
-        .toast.success {
-            border-left-color: #5cb85c;
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        /* Auth */
-        #auth-screen {
-            max-width: 420px;
-            margin: 100px auto;
-            background: var(--bg-secondary);
-            padding: 30px;
-            box-shadow: 0 4px 16px var(--shadow);
-            border-radius: 12px;
-        }
-        #auth-screen h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            text-align: center;
-        }
-        .input-group {
-            margin-bottom: 16px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            font-size: 14px;
-            border-radius: 8px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: border 0.2s;
-        }
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        .btn-primary {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 8px;
-            font-weight: 600;
-            width: 100%;
-            transition: background 0.2s, transform 0.1s;
-        }
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
-        }
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-        .auth-switch {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-        
-        /* Wall & Global Feed */
-        .post-form {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-        .post-form textarea {
-            width: 100%;
-            min-height: 80px;
-            padding: 10px;
-            border: 1px solid var(--border);
-            font-family: inherit;
-            font-size: 13px;
-            resize: vertical;
-            border-radius: 8px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-        }
-        .post-form textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        .post-form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            align-items: center;
-        }
-        .post {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.2s;
-        }
-        .post:hover {
-            background: var(--bg-card);
-        }
-        .post-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-        .post-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--accent);
-            display: flex;
+
+        * { font-family: 'Inter', sans-serif; }
+        body { margin: 0; padding: 0; overflow: hidden; }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #999; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #666; }
+
+        .icon-fallback {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            font-weight: bold;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-        .post-author-info {
-            flex: 1;
-        }
-        .post-author {
-            font-weight: 600;
-            color: var(--accent);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .post-date {
-            color: var(--text-muted);
-            font-size: 11px;
-            margin-top: 2px;
-        }
-        .post-text {
-            margin-bottom: 12px;
-            font-size: 13px;
-            line-height: 1.5;
-            white-space: pre-wrap;
-        }
-        .badge-spam {
-            background: #ff5c5c;
-            color: #fff;
-            padding: 2px 6px;
-            font-size: 10px;
-            border-radius: 4px;
-        }
-        .badge-admin {
-            background: #ffa500;
-            color: #fff;
-            padding: 2px 6px;
-            font-size: 10px;
-            border-radius: 4px;
-        }
-        .post-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .post-action-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 12px;
-            padding: 5px 10px;
-            border-radius: 6px;
-            transition: background 0.2s, color 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .post-action-btn:hover {
-            background: var(--bg-card);
-            color: var(--accent);
-        }
-        .post-action-btn.liked {
-            color: #ff5c5c;
-        }
-        .admin-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .admin-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            padding: 5px 12px;
-            font-size: 11px;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        .admin-btn:hover {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-        .admin-btn.delete:hover {
-            background: #ff5c5c;
-            border-color: #ff5c5c;
-        }
-        
-        /* Comments */
-        .comments-section {
-            margin-top: 15px;
-            padding-left: 52px;
-        }
-        .comment {
-            padding: 10px;
-            background: var(--bg-card);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
-        .comment-author {
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-        .comment-input {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .comment-input input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 12px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-        }
-        .comment-input button {
-            padding: 8px 15px;
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        /* Friends */
-        .friends-list {
-            padding: 20px;
-        }
-        .friend-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.2s;
-        }
-        .friend-item:hover {
-            background: var(--bg-card);
-        }
-        .friend-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: bold;
-            position: relative;
-        }
-        .online-indicator {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            background: #5cb85c;
-            border: 2px solid var(--bg-secondary);
-            border-radius: 50%;
-        }
-        .friend-info {
-            flex: 1;
-        }
-        .friend-name {
-            font-size: 14px;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-        .friend-username {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        .friend-btn {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 6px 14px;
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: background 0.2s;
-        }
-        .friend-btn:hover {
-            background: var(--accent-hover);
-        }
-        .friend-btn.remove {
-            background: #ff5c5c;
-        }
-        .friend-btn.remove:hover {
-            background: #e64646;
-        }
-        
-        /* Messages */
-        .dialogs-list {
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-            height: 550px;
-        }
-        .dialog-item {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .dialog-item:hover {
-            background: var(--bg-card);
-        }
-        .dialog-item.active {
-            background: var(--accent);
-            color: #fff;
-        }
-        .dialog-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
+            width: 24px;
+            height: 24px;
             font-weight: bold;
             font-size: 14px;
-        }
-        .messages-container {
-            display: flex;
-            height: 550px;
-        }
-        .messages-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .messages-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        .message {
-            margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
-        }
-        .message-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: bold;
-            font-size: 12px;
-            flex-shrink: 0;
-        }
-        .message-content {
-            max-width: 60%;
-        }
-        .message-author {
-            font-weight: 600;
-            font-size: 12px;
-            color: var(--accent);
-            margin-bottom: 3px;
-        }
-        .message-text {
-            background: var(--bg-card);
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-size: 13px;
-        }
-        .message.own {
-            flex-direction: row-reverse;
-        }
-        .message.own .message-content {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-        .message.own .message-text {
-            background: var(--accent);
-            color: #fff;
-        }
-        .message-input-area {
-            border-top: 1px solid var(--border);
-            padding: 15px;
-            display: flex;
-            gap: 10px;
-        }
-        .message-input-area input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid var(--border);
-            font-size: 13px;
-            border-radius: 8px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-        }
-        
-        /* Stickers */
-        .sticker-pack {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-        .sticker-pack-name {
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-        .stickers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 10px;
-        }
-        .sticker-item {
-            width: 90px;
-            height: 90px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border-radius: 8px;
-            font-size: 40px;
-            transition: all 0.2s;
-        }
-        .sticker-item:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-        
-        /* Media */
-        .media-preview {
-            margin-top: 10px;
-            max-width: 400px;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .media-preview img {
-            max-width: 100%;
-            display: block;
-        }
-        
-        /* Call */
-        .call-screen {
-            padding: 40px;
-            text-align: center;
-        }
-        .call-screen h3 {
-            font-size: 20px;
-            margin-bottom: 25px;
-        }
-        .call-btn {
-            background: #5cb85c;
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            margin: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-        .call-btn:hover {
-            background: #4cae4c;
-            transform: translateY(-2px);
-        }
-        .call-btn.end {
-            background: #ff5c5c;
-        }
-        .call-btn.end:hover {
-            background: #e64646;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            #content {
-                flex-direction: column;
-            }
-            #left-menu {
-                width: 100%;
-                display: flex;
-                overflow-x: auto;
-                gap: 8px;
-            }
-            .menu-item {
-                white-space: nowrap;
-                min-width: 120px;
-            }
-            .messages-container {
-                flex-direction: column;
-                height: auto;
-            }
-            .dialogs-list {
-                height: 250px;
-                border-right: none;
-                border-bottom: 1px solid var(--border);
-            }
-            #toast-container {
-                top: 70px;
-                right: 10px;
-                left: 10px;
-            }
-            .toast {
-                min-width: auto;
-            }
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        #page-title {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            font-size: 18px;
-            font-weight: 600;
-            background: var(--bg-card);
-        }
-        
-        .empty-state {
-            padding: 60px 20px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-        
-        .file-input-label {
-            display: inline-block;
-            background: var(--bg-card);
-            color: var(--text-secondary);
-            padding: 8px 14px;
-            cursor: pointer;
-            font-size: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            transition: all 0.2s;
-        }
-        .file-input-label:hover {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-        input[type="file"] {
-            display: none;
         }
     </style>
 </head>
-<body class="theme-oldschool">
+<body>
+    <div id="root"></div>
 
-<div id="toast-container"></div>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
-<div id="auth-screen">
-    <h2>Добро пожаловать в Морзянку</h2>
-    <div id="login-form">
-        <div class="input-group">
-            <label>Логин</label>
-            <input type="text" id="login-username" placeholder="Введите логин">
-        </div>
-        <div class="input-group">
-            <label>Пароль</label>
-            <input type="password" id="login-password" placeholder="Введите пароль">
-        </div>
-        <button class="btn-primary" onclick="login()">Войти</button>
-        <div class="auth-switch">
-            Нет аккаунта? <a href="#" onclick="showRegister(); return false;">Зарегистрироваться</a>
-        </div>
-    </div>
-    
-    <div id="register-form" class="hidden">
-        <div class="input-group">
-            <label>Логин</label>
-            <input type="text" id="register-username" placeholder="Придумайте логин">
-        </div>
-        <div class="input-group">
-            <label>Пароль</label>
-            <input type="password" id="register-password" placeholder="Придумайте пароль">
-        </div>
-        <div class="input-group">
-            <label>Имя</label>
-            <input type="text" id="register-name" placeholder="Ваше имя">
-        </div>
-        <button class="btn-primary" onclick="register()">Зарегистрироваться</button>
-        <div class="auth-switch">
-            Уже есть аккаунт? <a href="#" onclick="showLogin(); return false;">Войти</a>
-        </div>
-    </div>
-</div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-<div id="app" class="hidden">
-    <div id="header">
-        <div id="header-inner">
-            <a href="#" id="logo" onclick="showSection('feed'); return false;">Морзянка</a>
-            <div id="user-info">
-                <span id="current-user-name"></span>
-                <button id="theme-switcher" onclick="switchTheme()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Тема</button>
-                <button id="logout-btn" onclick="logout()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/><polyline points="17 17 22 12 17 7"/><line x1="12" y1="12" x2="22" y2="12"/></svg> Выйти</button>
-            </div>
-        </div>
-    </div>
-    
-    <div id="content">
-        <div id="left-menu">
-            <div class="menu-item active" onclick="showSection('feed')">Лента</div>
-            <div class="menu-item" onclick="showSection('wall')">Моя страница</div>
-            <div class="menu-item" onclick="showSection('friends')">Друзья</div>
-            <div class="menu-item" onclick="showSection('messages')">
-                Сообщения
-                <span class="badge hidden" id="unread-badge">0</span>
-            </div>
-            <div class="menu-item" onclick="showSection('stickers')">Стикеры</div>
-            <div class="menu-item" onclick="showSection('calls')">Звонки</div>
-        </div>
+        const LANGUAGES = {
+            en: {
+                appName: 'VibMess',
+                enterName: 'Enter username and password',
+                search: 'Search chats, users...',
+                message: 'Type a message...',
+                settings: 'Settings',
+                logout: 'Log Out',
+                theme: 'Theme',
+                language: 'Language',
+                createGroup: 'New Group',
+                createChannel: 'New Channel',
+                chatName: 'Group Name',
+                create: 'Create',
+                cancel: 'Cancel',
+                selectChat: 'Select a chat to start messaging',
+                login: 'Log In',
+                register: 'Register',
+                password: 'Password',
+                username: 'Username',
+                alreadyHaveAccount: 'Already have an account?',
+                noAccount: "Don't have an account?",
+                invalidPassword: 'Invalid password',
+                userExists: 'User already exists',
+                send: 'Send',
+                online: 'online',
+                offline: 'offline',
+                typing: 'Typing...',
+                voiceCall: 'Voice Call',
+                videoCall: 'Video Call',
+                groupCall: 'Group Call',
+                startCall: 'Start Call',
+                endCall: 'End Call',
+                members: 'members',
+                loading: 'Please wait...',
+                ok: 'Ok',
+                deleteChat: 'Delete Chat',
+                leaveChat: 'Leave Chat',
+                clearChat: 'Clear Chat',
+                pinMessage: 'Pin Message',
+                unpinMessage: 'Unpin Message',
+                reply: 'Reply',
+                edit: 'Edit',
+                delete: 'Delete',
+                reactions: 'Reactions',
+                addMember: 'Add Member',
+                removeUser: 'Remove User',
+                admin: 'Admin',
+                makeAdmin: 'Make Admin',
+                removeAdmin: 'Remove Admin',
+                privacy: 'Privacy',
+                private: 'Private',
+                public: 'Public'
+            },
+            ru: {
+                appName: 'ВибМесс',
+                enterName: 'Введите имя и пароль',
+                search: 'Поиск чатов, пользователей...',
+                message: 'Напишите сообщение...',
+                settings: 'Настройки',
+                logout: 'Выйти',
+                theme: 'Тема',
+                language: 'Язык',
+                createGroup: 'Новая группа',
+                createChannel: 'Новый канал',
+                chatName: 'Название группы',
+                create: 'Создать',
+                cancel: 'Отмена',
+                selectChat: 'Выберите чат для начала общения',
+                login: 'Войти',
+                register: 'Регистрация',
+                password: 'Пароль',
+                username: 'Имя пользователя',
+                alreadyHaveAccount: 'Уже есть аккаунт?',
+                noAccount: 'Нет аккаунта?',
+                invalidPassword: 'Неверный пароль',
+                userExists: 'Пользователь уже существует',
+                send: 'Отправить',
+                online: 'в сети',
+                offline: 'не в сети',
+                typing: 'Печатает...',
+                voiceCall: 'Голосовой звонок',
+                videoCall: 'Видеозвонок',
+                groupCall: 'Групповой звонок',
+                startCall: 'Начать звонок',
+                endCall: 'Завершить звонок',
+                members: 'участников',
+                loading: 'Подождите...',
+                ok: 'Ок',
+                deleteChat: 'Удалить чат',
+                leaveChat: 'Покинуть чат',
+                clearChat: 'Очистить чат',
+                pinMessage: 'Закрепить сообщение',
+                unpinMessage: 'Открепить сообщение',
+                reply: 'Ответить',
+                edit: 'Изменить',
+                delete: 'Удалить',
+                reactions: 'Реакции',
+                addMember: 'Добавить участника',
+                removeUser: 'Удалить пользователя',
+                admin: 'Администратор',
+                makeAdmin: 'Назначить администратором',
+                removeAdmin: 'Убрать администратора',
+                privacy: 'Приватность',
+                private: 'Приватный',
+                public: 'Публичный'
+            }
+        };
+
+        const firebaseConfig = {
+            databaseURL: "https://vibmess-default-rtdb.firebaseio.com/"
+        };
         
-        <div id="main-content">
-            <div id="page-title">Лента</div>
-            
-            <!-- Global Feed -->
-            <div id="feed-section">
-                <div class="post-form">
-                    <textarea id="feed-post-text" placeholder="Что нового?"></textarea>
-                    <div class="post-form-actions">
-                                                 <label class="file-input-label" for="feed-post-file"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 0 19.8-4.3M22 12.5a10 10 0 0 0-19.8 4.2"/></svg> Прикрепить</label>
-                        <input type="file" id="feed-post-file" accept="image/*,video/*,audio/*">
-                        <button class="btn-primary" onclick="createGlobalPost()">Опубликовать</button>
-                    </div>
-                </div>
-                <div id="feed-posts-list"></div>
-            </div>
-            
-            <!-- Wall -->
-            <div id="wall-section" class="hidden">
-                <div class="post-form">
-                    <textarea id="post-text" placeholder="Что нового?"></textarea>
-                    <div class="post-form-actions">
-                        <label class="file-input-label" for="post-file">📎 Прикрепить</label>
-                        <input type="file" id="post-file" accept="image/*,video/*,audio/*">
-                        <button class="btn-primary" onclick="createPost()">Отправить</button>
-                    </div>
-                </div>
-                <div id="posts-list"></div>
-            </div>
-            
-            <!-- Friends -->
-            <div id="friends-section" class="hidden">
-                <div class="friends-list">
-                    <h3 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Поиск друзей</h3>
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <input type="text" id="friend-search" placeholder="Введите логин" style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-primary); color: var(--text-primary);">
-                        <button class="btn-primary" onclick="searchFriend()">Найти</button>
-                    </div>
-                    <div id="search-result"></div>
-                    
-                    <h3 style="margin: 25px 0 15px 0; font-size: 16px; font-weight: 600;">Мои друзья</h3>
-                    <div id="friends-list"></div>
-                </div>
-            </div>
-            
-            <!-- Messages -->
-            <div id="messages-section" class="hidden">
-                <div class="messages-container">
-                    <div class="dialogs-list" style="width: 250px;" id="dialogs-list"></div>
-                    <div class="messages-area">
-                        <div id="messages-list" class="messages-list">
-                            <div class="empty-state">Выберите диалог</div>
-                        </div>
-                        <div class="message-input-area" id="message-input-area" style="display: none;">
-                            <input type="text" id="message-text" placeholder="Написать сообщение...">
-                                                         <label class="file-input-label" for="message-file"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 0 19.8-4.3M22 12.5a10 10 0 0 0-19.8 4.2"/></svg></label>
-                            <input type="file" id="message-file" accept="image/*,video/*,audio/*">
-                                                         <button class="btn-primary" onclick="sendMessage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.8429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 L4.13399899,1.16831269 C3.34915502,0.9 2.40734225,0.9 1.77946707,1.4429026 C0.994623095,2.0602188 0.837654326,3.0028031 1.15159189,3.78829004 L3.03521743,10.2292831 C3.03521743,10.3863805 3.19218622,10.5434779 3.50612381,10.5434779 L16.6915026,11.3289648 C16.6915026,11.3289648 17.1624089,11.3289648 17.1624089,11.9462809 C17.1624089,12.563597 16.6915026,12.4744748 16.6915026,12.4744748 Z"/></svg></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Stickers -->
-            <div id="stickers-section" class="hidden">
-                <div style="padding: 20px;">
-                    <h3 style="margin-bottom: 12px; font-size: 16px; font-weight: 600;">Создать стикерпак</h3>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="new-pack-name" placeholder="Название пака" style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-primary); color: var(--text-primary);">
-                        <button class="btn-primary" onclick="createStickerPack()">Создать</button>
-                    </div>
-                </div>
-                <div id="sticker-packs"></div>
-            </div>
-            
-            <!-- Calls -->
-            <div id="calls-section" class="hidden">
-                <div class="call-screen">
-                    <h3>Звонки</h3>
-                    <p style="margin-bottom: 20px; color: var(--text-muted);">Выберите друга для звонка</p>
-                    <div id="call-friends-list"></div>
-                    <div id="active-call" class="hidden">
-                        <p style="font-size: 16px; margin-bottom: 15px;">Идёт звонок с <span id="call-partner"></span></p>
-                        <button class="call-btn end" onclick="endCall()">Завершить звонок</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-import { getDatabase, ref, set, get, push, onValue, update, remove, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js';
+        // Icon Component
+        const Icon = ({ name, className = "w-5 h-5" }) => {
+            const icons = {
+                Send: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8m0 8l-4-2m4 2l4-2" /></svg>,
+                Users: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 8 4 4 0 010-8M3 20.5v-3.5A6 6 0 0115 11v3.5M21 20.5v-3.5A6 6 0 009 11v3.5" /></svg>,
+                Phone: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>,
+                Video: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>,
+                Menu: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>,
+                Search: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>,
+                X: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>,
+                Plus: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>,
+                ChevronRight: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>,
+                MoreVertical: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>,
+                Smile: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M17 17H7m10 0a10 10 0 11-20 0 10 10 0 0120 0zM9 9h.01M15 9h.01" /></svg>,
+                Loader2: <svg className={`${className} animate-spin`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>,
+                Check: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>,
+                Settings: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /></svg>,
+                LogOut: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>,
+                Trash2: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>,
+                Pencil: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>,
+                Reply: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10a9 9 0 0118 0v3.6c0 .75.592 1.4 1.333 1.4.741 0 1.333-.65 1.333-1.4v-3.6a11 11 0 00-22 0v3.6c0 .75.592 1.4 1.334 1.4.741 0 1.333-.65 1.333-1.4V10z" /></svg>,
+                Mic: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4" /></svg>,
+                Pin: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H19m-12 0a1 1 0 01-1-1V5a2 2 0 012-2h6a2 2 0 012 2v9a1 1 0 01-1 1m-6 0a1 1 0 001 1h6a1 1 0 001-1m-6 0H9" /></svg>,
+                Bell: <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>,
+            };
+            return icons[name] || <span className={`${className} icon-fallback`}>{name[0]}</span>;
+        };
 
-const firebaseConfig = {
-    apiKey: "AIzaSyATP4YQNDWjbgR5RkEUWjbKZlmvkNfKJZQ",
-    authDomain: "fastcupteams.firebaseapp.com",
-    databaseURL: "https://fastcupteams-default-rtdb.firebaseio.com",
-    projectId: "fastcupteams",
-    storageBucket: "fastcupteams.firebasestorage.app",
-    messagingSenderId: "156257388825",
-    appId: "1:156257388825:web:5887c19c4ce27e7f8b1d88",
-    measurementId: "G-7G2RLM9LBP"
-};
+        function App() {
+            const [user, setUser] = useState(null);
+            const [usernameInput, setUsernameInput] = useState('');
+            const [passwordInput, setPasswordInput] = useState('');
+            const [isRegistering, setIsRegistering] = useState(false);
+            const [isLoading, setIsLoading] = useState(false);
+            const [chats, setChats] = useState([]);
+            const [activeChatId, setActiveChatId] = useState(null);
+            const [messages, setMessages] = useState([]);
+            const [allUsers, setAllUsers] = useState({});
+            const messageInputRef = useRef('');
+            const textareaRef = useRef(null);
+            const [language, setLanguage] = useState('en');
+            const [isDark, setIsDark] = useState(true);
+            const [callState, setCallState] = useState('idle'); // idle, calling, connected
+            const [currentCall, setCurrentCall] = useState(null);
+            const [groupCallMembers, setGroupCallMembers] = useState([]);
+            const [showSettings, setShowSettings] = useState(false);
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const storage = getStorage(app);
+            const t = LANGUAGES[language];
 
-window.db = db;
-window.storage = storage;
-window.dbRef = ref;
-window.dbSet = set;
-window.dbGet = get;
-window.dbPush = push;
-window.dbOnValue = onValue;
-window.dbUpdate = update;
-window.dbRemove = remove;
-window.storageRef = storageRef;
-window.uploadBytes = uploadBytes;
-window.getDownloadURL = getDownloadURL;
+            const hashPassword = async (password) => {
+                const msgUint8 = new TextEncoder().encode(password);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            };
 
-let currentUser = null;
-let currentDialog = null;
-let spamCount = {};
-let blockedUsers = new Set();
-let currentTheme = localStorage.getItem('theme') || 'oldschool';
-
-// Toast notifications
-window.showToast = function(message, type = 'info') {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.textContent = message;
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-};
-
-// Theme switcher
-window.switchTheme = function() {
-    const themes = ['oldschool', 'light', 'dark'];
-    const currentIndex = themes.indexOf(currentTheme);
-    currentTheme = themes[(currentIndex + 1) % themes.length];
-    document.body.className = `theme-${currentTheme}`;
-    localStorage.setItem('theme', currentTheme);
-    showToast(`Тема изменена на ${currentTheme === 'oldschool' ? 'олдскул' : currentTheme === 'light' ? 'светлую' : 'тёмную'}`, 'success');
-};
-
-document.body.className = `theme-${currentTheme}`;
-
-// Avatar helper
-function getAvatar(name) {
-    return name ? name[0].toUpperCase() : '?';
-}
-
-window.showRegister = function() {
-    document.getElementById('login-form').classList.add('hidden');
-    document.getElementById('register-form').classList.remove('hidden');
-};
-
-window.showLogin = function() {
-    document.getElementById('register-form').classList.add('hidden');
-    document.getElementById('login-form').classList.remove('hidden');
-};
-
-window.register = async function() {
-    const username = document.getElementById('register-username').value.trim();
-    const password = document.getElementById('register-password').value;
-    const name = document.getElementById('register-name').value.trim();
-    
-    if (!username || !password || !name) {
-        showToast('Заполните все поля', 'error');
-        return;
-    }
-    
-    const usersRef = dbRef(db, 'users');
-    const snapshot = await dbGet(usersRef);
-    const users = snapshot.val() || {};
-    
-    if (Object.values(users).find(u => u.username === username)) {
-        showToast('Этот логин уже занят', 'error');
-        return;
-    }
-    
-    const userId = push(usersRef).key;
-    await dbSet(dbRef(db, `users/${userId}`), {
-        username,
-        password,
-        name,
-        blocked: false,
-        spamCount: 0,
-        admin: false,
-        online: false
-    });
-    
-    showToast('Регистрация успешна', 'success');
-    showLogin();
-};
-
-window.login = async function() {
-    const username = document.getElementById('login-username').value.trim();
-    const password = document.getElementById('login-password').value;
-    
-    if (!username || !password) {
-        showToast('Заполните все поля', 'error');
-        return;
-    }
-    
-    const usersRef = dbRef(db, 'users');
-    const snapshot = await dbGet(usersRef);
-    const users = snapshot.val() || {};
-    
-    const user = Object.entries(users).find(([id, u]) => u.username === username && u.password === password);
-    
-    if (!user) {
-        showToast('Неверный логин или пароль', 'error');
-        return;
-    }
-    
-    if (user[1].blocked) {
-        showToast('Ваш аккаунт заблокирован за спам', 'error');
-        return;
-    }
-    
-    currentUser = { id: user[0], ...user[1] };
-    await dbUpdate(dbRef(db, `users/${currentUser.id}`), { online: true, lastSeen: Date.now() });
-    
-    document.getElementById('auth-screen').classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-    document.getElementById('current-user-name').textContent = currentUser.name;
-    
-    loadGlobalFeed();
-    loadWall();
-    loadFriends();
-    loadDialogs();
-    loadStickerPacks();
-    updateUnreadCount();
-    
-    setInterval(() => {
-        if (currentUser) {
-            dbUpdate(dbRef(db, `users/${currentUser.id}`), { lastSeen: Date.now() });
-        }
-    }, 30000);
-};
-
-window.logout = async function() {
-    if (currentUser) {
-        await dbUpdate(dbRef(db, `users/${currentUser.id}`), { online: false, lastSeen: Date.now() });
-    }
-    currentUser = null;
-    document.getElementById('app').classList.add('hidden');
-    document.getElementById('auth-screen').classList.remove('hidden');
-    showLogin();
-};
-
-window.showSection = function(section) {
-    document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-    event.target.classList.add('active');
-    
-    document.getElementById('feed-section').classList.add('hidden');
-    document.getElementById('wall-section').classList.add('hidden');
-    document.getElementById('friends-section').classList.add('hidden');
-    document.getElementById('messages-section').classList.add('hidden');
-    document.getElementById('stickers-section').classList.add('hidden');
-    document.getElementById('calls-section').classList.add('hidden');
-    
-    const titles = {
-        feed: 'Лента',
-        wall: 'Моя страница',
-        friends: 'Друзья',
-        messages: 'Сообщения',
-        stickers: 'Стикеры',
-        calls: 'Звонки'
-    };
-    
-    document.getElementById('page-title').textContent = titles[section];
-    document.getElementById(`${section}-section`).classList.remove('hidden');
-    
-    if (section === 'calls') loadCallFriends();
-};
-
-// Global Feed
-window.createGlobalPost = async function() {
-    const text = document.getElementById('feed-post-text').value.trim();
-    const file = document.getElementById('feed-post-file').files[0];
-    
-    if (!text && !file) return;
-    
-    const userSpamKey = `${currentUser.id}_${Date.now()}`;
-    spamCount[currentUser.id] = (spamCount[currentUser.id] || 0) + 1;
-    
-    if (spamCount[currentUser.id] > 5) {
-        await dbUpdate(dbRef(db, `users/${currentUser.id}`), { blocked: true, spamCount: spamCount[currentUser.id] });
-        showToast('Вы заблокированы за спам', 'error');
-        logout();
-        return;
-    }
-    
-    setTimeout(() => {
-        spamCount[currentUser.id] = Math.max(0, (spamCount[currentUser.id] || 0) - 1);
-    }, 10000);
-    
-    let mediaUrl = null;
-    if (file) {
-        const fileRef = storageRef(storage, `global_posts/${Date.now()}_${file.name}`);
-        await uploadBytes(fileRef, file);
-        mediaUrl = await getDownloadURL(fileRef);
-    }
-    
-    const postsRef = dbRef(db, 'globalPosts');
-    await dbPush(postsRef, {
-        userId: currentUser.id,
-        userName: currentUser.name,
-        text,
-        mediaUrl,
-        timestamp: Date.now(),
-        spamCount: spamCount[currentUser.id],
-        likes: {}
-    });
-    
-    document.getElementById('feed-post-text').value = '';
-    document.getElementById('feed-post-file').value = '';
-    showToast('Пост опубликован', 'success');
-};
-
-async function loadGlobalFeed() {
-    const postsRef = dbRef(db, 'globalPosts');
-    dbOnValue(postsRef, async (snapshot) => {
-        const posts = snapshot.val() || {};
-        const postsList = document.getElementById('feed-posts-list');
-        postsList.innerHTML = '';
-        
-        const usersSnapshot = await dbGet(dbRef(db, 'users'));
-        const users = usersSnapshot.val() || {};
-        
-        Object.entries(posts).reverse().forEach(([id, post]) => {
-            const postEl = document.createElement('div');
-            postEl.className = 'post';
-            
-            const isSpammer = post.spamCount >= 5;
-            const likesCount = post.likes ? Object.keys(post.likes).length : 0;
-            const isLiked = post.likes && post.likes[currentUser.id];
-            
-            const postUser = Object.values(users).find(u => u.userName === post.userName || u.name === post.userName);
-            const isAdmin = postUser && postUser.admin;
-            
-            postEl.innerHTML = `
-                <div class="post-header">
-                    <div class="post-avatar">${getAvatar(post.userName)}</div>
-                    <div class="post-author-info">
-                        <div class="post-author">
-                            ${post.userName}
-                            ${isSpammer ? '<span class="badge-spam">СПАМЕР</span>' : ''}
-                            ${isAdmin ? '<span class="badge-admin">АДМИН</span>' : ''}
-                        </div>
-                        <div class="post-date">${new Date(post.timestamp).toLocaleString('ru')}</div>
-                    </div>
-                </div>
-                <div class="post-text">${post.text || ''}</div>
-                ${post.mediaUrl ? `<div class="media-preview"><img src="${post.mediaUrl}"></div>` : ''}
-                <div class="post-actions">
-                    <button class="post-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('globalPosts', '${id}')">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> ${likesCount}
-                    </button>
-                    <button class="post-action-btn" onclick="toggleComments('${id}')">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Комментарии
-                    </button>
-                </div>
-                ${currentUser.admin ? `
-                    <div class="admin-actions">
-                        <button class="admin-btn" onclick="editPost('globalPosts', '${id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Редактировать</button>
-                        <button class="admin-btn delete" onclick="deletePost('globalPosts', '${id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg> Удалить</button>
-                    </div>
-                ` : ''}
-                <div class="comments-section" id="comments-${id}" style="display: none;">
-                    <div id="comments-list-${id}"></div>
-                    <div class="comment-input">
-                        <input type="text" id="comment-input-${id}" placeholder="Написать комментарий...">
-                        <button onclick="addComment('globalPosts', '${id}')">Отправить</button>
-                    </div>
-                </div>
-            `;
-            postsList.appendChild(postEl);
-            
-            loadComments('globalPosts', id);
-        });
-    });
-}
-
-window.toggleLike = async function(collection, postId) {
-    const postRef = dbRef(db, `${collection}/${postId}/likes/${currentUser.id}`);
-    const snapshot = await dbGet(postRef);
-    
-    if (snapshot.exists()) {
-        await dbRemove(postRef);
-    } else {
-        await dbSet(postRef, true);
-    }
-};
-
-window.toggleComments = function(postId) {
-    const commentsSection = document.getElementById(`comments-${postId}`);
-    commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
-};
-
-window.addComment = async function(collection, postId) {
-    const input = document.getElementById(`comment-input-${postId}`);
-    const text = input.value.trim();
-    if (!text) return;
-    
-    const commentsRef = dbRef(db, `${collection}/${postId}/comments`);
-    await dbPush(commentsRef, {
-        userId: currentUser.id,
-        userName: currentUser.name,
-        text,
-        timestamp: Date.now()
-    });
-    
-    input.value = '';
-};
-
-function loadComments(collection, postId) {
-    const commentsRef = dbRef(db, `${collection}/${postId}/comments`);
-    dbOnValue(commentsRef, (snapshot) => {
-        const comments = snapshot.val() || {};
-        const commentsList = document.getElementById(`comments-list-${postId}`);
-        if (!commentsList) return;
-        
-        commentsList.innerHTML = '';
-        Object.entries(comments).forEach(([id, comment]) => {
-            const commentEl = document.createElement('div');
-            commentEl.className = 'comment';
-            commentEl.innerHTML = `
-                <div class="comment-author">${comment.userName}</div>
-                <div>${comment.text}</div>
-            `;
-            commentsList.appendChild(commentEl);
-        });
-    });
-}
-
-window.editPost = async function(collection, postId) {
-    const newText = prompt('Новый текст поста:');
-    if (newText === null) return;
-    await dbUpdate(dbRef(db, `${collection}/${postId}`), { text: newText });
-    showToast('Пост обновлён', 'success');
-};
-
-window.deletePost = async function(collection, postId) {
-    if (!confirm('Удалить пост?')) return;
-    await dbRemove(dbRef(db, `${collection}/${postId}`));
-    showToast('Пост удалён', 'success');
-};
-
-// Wall (personal)
-window.createPost = async function() {
-    const text = document.getElementById('post-text').value.trim();
-    const file = document.getElementById('post-file').files[0];
-    
-    if (!text && !file) return;
-    
-    let mediaUrl = null;
-    if (file) {
-        const fileRef = storageRef(storage, `posts/${Date.now()}_${file.name}`);
-        await uploadBytes(fileRef, file);
-        mediaUrl = await getDownloadURL(fileRef);
-    }
-    
-    const postsRef = dbRef(db, `userPosts/${currentUser.id}`);
-    await dbPush(postsRef, {
-        userId: currentUser.id,
-        userName: currentUser.name,
-        text,
-        mediaUrl,
-        timestamp: Date.now(),
-        likes: {}
-    });
-    
-    document.getElementById('post-text').value = '';
-    document.getElementById('post-file').value = '';
-    showToast('Пост добавлен', 'success');
-};
-
-async function loadWall() {
-    const postsRef = dbRef(db, `userPosts/${currentUser.id}`);
-    dbOnValue(postsRef, (snapshot) => {
-        const posts = snapshot.val() || {};
-        const postsList = document.getElementById('posts-list');
-        postsList.innerHTML = '';
-        
-        Object.entries(posts).reverse().forEach(([id, post]) => {
-            const postEl = document.createElement('div');
-            postEl.className = 'post';
-            
-            const likesCount = post.likes ? Object.keys(post.likes).length : 0;
-            const isLiked = post.likes && post.likes[currentUser.id];
-            
-            postEl.innerHTML = `
-                <div class="post-header">
-                    <div class="post-avatar">${getAvatar(post.userName)}</div>
-                    <div class="post-author-info">
-                        <div class="post-author">${post.userName}</div>
-                        <div class="post-date">${new Date(post.timestamp).toLocaleString('ru')}</div>
-                    </div>
-                </div>
-                <div class="post-text">${post.text || ''}</div>
-                ${post.mediaUrl ? `<div class="media-preview"><img src="${post.mediaUrl}"></div>` : ''}
-                <div class="post-actions">
-                    <button class="post-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('userPosts/${currentUser.id}', '${id}')">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> ${likesCount}
-                    </button>
-                </div>
-            `;
-            postsList.appendChild(postEl);
-        });
-    });
-}
-
-// Friends
-window.searchFriend = async function() {
-    const search = document.getElementById('friend-search').value.trim();
-    if (!search) return;
-    
-    const usersRef = dbRef(db, 'users');
-    const snapshot = await dbGet(usersRef);
-    const users = snapshot.val() || {};
-    
-    const found = Object.entries(users).find(([id, u]) => u.username === search && id !== currentUser.id);
-    const resultDiv = document.getElementById('search-result');
-    
-    if (found) {
-        resultDiv.innerHTML = `
-            <div class="friend-item">
-                <div class="friend-avatar">${getAvatar(found[1].name)}</div>
-                <div class="friend-info">
-                    <div class="friend-name">${found[1].name}</div>
-                    <div class="friend-username">@${found[1].username}</div>
-                </div>
-                <button class="friend-btn" onclick="addFriend('${found[0]}')">Добавить</button>
-            </div>
-        `;
-    } else {
-        resultDiv.innerHTML = '<p style="color: var(--text-muted); padding: 10px;">Пользователь не найден</p>';
-    }
-};
-
-window.addFriend = async function(friendId) {
-    await dbSet(dbRef(db, `friends/${currentUser.id}/${friendId}`), true);
-    await dbSet(dbRef(db, `friends/${friendId}/${currentUser.id}`), true);
-    showToast('Друг добавлен', 'success');
-    loadFriends();
-};
-
-window.removeFriend = async function(friendId) {
-    await dbRemove(dbRef(db, `friends/${currentUser.id}/${friendId}`));
-    await dbRemove(dbRef(db, `friends/${friendId}/${currentUser.id}`));
-    showToast('Друг удалён', 'success');
-    loadFriends();
-};
-
-async function loadFriends() {
-    const friendsRef = dbRef(db, `friends/${currentUser.id}`);
-    dbOnValue(friendsRef, async (snapshot) => {
-        const friendIds = snapshot.val() || {};
-        const friendsList = document.getElementById('friends-list');
-        friendsList.innerHTML = '';
-        
-        for (const friendId in friendIds) {
-            const userSnapshot = await dbGet(dbRef(db, `users/${friendId}`));
-            const user = userSnapshot.val();
-            
-            if (user) {
-                const isOnline = user.online && (Date.now() - user.lastSeen < 60000);
+            const handleLogin = async (e) => {
+                e.preventDefault();
+                if (!usernameInput.trim() || !passwordInput.trim() || isLoading) return;
                 
-                const friendEl = document.createElement('div');
-                friendEl.className = 'friend-item';
-                friendEl.innerHTML = `
-                    <div class="friend-avatar">
-                        ${getAvatar(user.name)}
-                        ${isOnline ? '<div class="online-indicator"></div>' : ''}
+                setIsLoading(true);
+                try {
+                    const userId = usernameInput.toLowerCase().replace(/\s/g, '_');
+                    const userRef = db.ref(`users/${userId}`);
+                    const snapshot = await userRef.once('value');
+                    const hashedPassword = await hashPassword(passwordInput);
+                    
+                    if (isRegistering) {
+                        if (snapshot.exists()) {
+                            alert(t.userExists);
+                            setIsLoading(false);
+                            return;
+                        }
+                        const userData = {
+                            id: userId,
+                            username: usernameInput,
+                            password: hashedPassword,
+                            language: 'en',
+                            theme: 'dark'
+                        };
+                        await userRef.set(userData);
+                        setUser(userData);
+                        localStorage.setItem('vibmess_user_id', userId);
+                    } else {
+                        if (!snapshot.exists()) {
+                            alert('User not found');
+                            setIsLoading(false);
+                            return;
+                        }
+                        const userData = snapshot.val();
+                        if (userData.password !== hashedPassword && userData.password !== passwordInput) {
+                            alert(t.invalidPassword);
+                            setIsLoading(false);
+                            return;
+                        }
+                        if (userData.password === passwordInput) {
+                            userData.password = hashedPassword;
+                            await userRef.update({ password: hashedPassword });
+                        }
+                        setUser(userData);
+                        setLanguage(userData.language || 'en');
+                        setIsDark(userData.theme === 'dark');
+                        localStorage.setItem('vibmess_user_id', userId);
+                    }
+                } catch (error) {
+                    console.error("Login error:", error);
+                    alert("An error occurred during login.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            useEffect(() => {
+                const savedUserId = localStorage.getItem('vibmess_user_id');
+                if (savedUserId) {
+                    const userRef = db.ref(`users/${savedUserId}`);
+                    userRef.once('value', (snapshot) => {
+                        if (snapshot.exists()) {
+                            const userData = snapshot.val();
+                            setUser(userData);
+                            setLanguage(userData.language || 'en');
+                            setIsDark(userData.theme === 'dark');
+                        }
+                    });
+                }
+            }, []);
+
+            useEffect(() => {
+                if (!user) return;
+                const usersRef = db.ref('users');
+                usersRef.on('value', (snapshot) => {
+                    if (snapshot.exists()) setAllUsers(snapshot.val());
+                });
+                return () => usersRef.off();
+            }, [user?.id]);
+
+            useEffect(() => {
+                if (!user) return;
+                const chatsRef = db.ref('chats');
+                chatsRef.on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        const chatList = Object.entries(data)
+                            .map(([id, chat]) => ({ id, ...chat }))
+                            .filter(c => c.members && c.members[user.id])
+                            .sort((a, b) => (b.lastTimestamp || 0) - (a.lastTimestamp || 0));
+                        setChats(chatList);
+                    } else {
+                        setChats([]);
+                    }
+                });
+                return () => chatsRef.off();
+            }, [user?.id]);
+
+            useEffect(() => {
+                if (!activeChatId || !user) return;
+                const messagesRef = db.ref(`messages/${activeChatId}`);
+                messagesRef.on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        const msgList = Object.entries(data)
+                            .map(([id, msg]) => ({ id, ...msg }))
+                            .sort((a, b) => a.timestamp - b.timestamp);
+                        setMessages(msgList);
+                    } else {
+                        setMessages([]);
+                    }
+                });
+                return () => messagesRef.off();
+            }, [activeChatId, user?.id]);
+
+            const sendMessage = async (e) => {
+                e.preventDefault();
+                const inputVal = messageInputRef.current;
+                if (!inputVal.trim() || !user || !activeChatId) return;
+
+                try {
+                    const messagesRef = db.ref(`messages/${activeChatId}`);
+                    await messagesRef.push({
+                        senderId: user.id,
+                        senderName: user.username,
+                        text: inputVal,
+                        type: 'text',
+                        timestamp: Date.now()
+                    });
+
+                    const chatRef = db.ref(`chats/${activeChatId}`);
+                    await chatRef.update({
+                        lastMessage: inputVal,
+                        lastTimestamp: Date.now()
+                    });
+
+                    messageInputRef.current = '';
+                    if (textareaRef.current) {
+                        textareaRef.current.value = '';
+                        textareaRef.current.style.height = 'auto';
+                    }
+                } catch (error) {
+                    console.error("Error sending message:", error);
+                }
+            };
+
+            const startGroupCall = async () => {
+                const chat = chats.find(c => c.id === activeChatId);
+                if (!chat || chat.type === 'private') return;
+                
+                setCallState('calling');
+                setGroupCallMembers(Object.keys(chat.members || {}).filter(id => id !== user.id));
+                setCurrentCall({ id: Date.now().toString(), name: chat.name, type: 'group' });
+            };
+
+            const endCall = () => {
+                setCallState('idle');
+                setCurrentCall(null);
+                setGroupCallMembers([]);
+            };
+
+            const logout = () => {
+                setUser(null);
+                setUsernameInput('');
+                setPasswordInput('');
+                setIsRegistering(false);
+                localStorage.removeItem('vibmess_user_id');
+            };
+
+            if (!user) {
+                return (
+                    <div className={`min-h-screen flex items-center justify-center ${isDark ? "bg-vibm-dark-bg text-vibm-dark-text" : "bg-vibm-light-bg"}`}>
+                        <div className={`p-8 rounded-2xl shadow-2xl w-full max-w-md text-center ${isDark ? "bg-vibm-dark-sidebar" : "bg-white"}`}>
+                            <div className="w-16 h-16 bg-gradient-to-br from-vibm-purple to-vibm-light-purple rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Icon name="Send" className="text-white w-8 h-8" />
+                            </div>
+                            <h1 className="text-3xl font-bold mb-2">{t.appName}</h1>
+                            <p className={`mb-8 ${isDark ? "text-slate-400" : "text-slate-600"}`}>{t.enterName}</p>
+                            <form onSubmit={handleLogin} className="space-y-4">
+                                <input
+                                    type="text"
+                                    placeholder={t.username}
+                                    disabled={isLoading}
+                                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-vibm-purple ${isDark ? "bg-vibm-dark-bg border-white/10" : "bg-white border-slate-200"}`}
+                                    value={usernameInput}
+                                    onChange={(e) => setUsernameInput(e.target.value)}
+                                    autoFocus
+                                />
+                                <input
+                                    type="password"
+                                    placeholder={t.password}
+                                    disabled={isLoading}
+                                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-vibm-purple ${isDark ? "bg-vibm-dark-bg border-white/10" : "bg-white border-slate-200"}`}
+                                    value={passwordInput}
+                                    onChange={(e) => setPasswordInput(e.target.value)}
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={isLoading}
+                                    className="w-full text-white py-3 rounded-xl font-semibold bg-vibm-purple hover:bg-vibm-light-purple transition-colors disabled:opacity-50"
+                                >
+                                    {isLoading ? <Icon name="Loader2" className="inline w-5 h-5" /> : (isRegistering ? t.register : t.login)}
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={isLoading}
+                                    onClick={() => setIsRegistering(!isRegistering)}
+                                    className="w-full text-vibm-purple text-sm font-medium hover:underline"
+                                >
+                                    {isRegistering ? t.alreadyHaveAccount : t.noAccount}
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="friend-info">
-                        <div class="friend-name">${user.name}</div>
-                        <div class="friend-username">@${user.username}</div>
+                );
+            }
+
+            return (
+                <div className={`flex h-screen overflow-hidden ${isDark ? "bg-vibm-dark-bg text-vibm-dark-text dark" : "bg-vibm-light-bg"}`}>
+                    {/* Sidebar */}
+                    <div className={`w-80 border-r flex flex-col ${isDark ? "bg-vibm-dark-sidebar border-white/5" : "bg-white border-slate-100"}`}>
+                        <div className="p-4 flex items-center gap-3 flex-shrink-0">
+                            <div className="flex-1">
+                                <h2 className="font-bold">{t.appName}</h2>
+                                <p className="text-xs opacity-60">@{user.username}</p>
+                            </div>
+                            <button onClick={() => setShowSettings(true)} className="p-2 hover:bg-vibm-purple/10 rounded-full">
+                                <Icon name="Settings" className="w-5 h-5" />
+                            </button>
+                            <button onClick={logout} className="p-2 hover:bg-red-500/10 rounded-full text-red-500">
+                                <Icon name="LogOut" className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="px-3 pb-3">
+                            <div className="relative">
+                                <Icon name="Search" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 opacity-50" />
+                                <input type="text" placeholder={t.search} className={`w-full pl-10 pr-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-vibm-purple/20 ${isDark ? "bg-white/5" : "bg-slate-100"}`} />
+                            </div>
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto custom-scrollbar space-y-1 px-2">
+                            {chats.map(chat => (
+                                <button
+                                    key={chat.id}
+                                    onClick={() => setActiveChatId(chat.id)}
+                                    className={`w-full p-3 rounded-lg text-left transition-colors ${activeChatId === chat.id ? "bg-vibm-purple/20" : `hover:${isDark ? "bg-white/5" : "bg-slate-50"}`}`}
+                                >
+                                    <div className="font-semibold text-sm">{chat.name}</div>
+                                    <p className="text-xs opacity-60 truncate">{chat.lastMessage}</p>
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="p-3 border-t border-white/5 flex gap-2">
+                            <button className={`flex-1 py-2 rounded-lg font-bold text-sm transition-colors ${isDark ? "bg-vibm-purple/10 text-vibm-purple hover:bg-vibm-purple/20" : "bg-vibm-purple text-white hover:bg-vibm-light-purple"}`}>
+                                <Icon name="Plus" className="inline w-4 h-4 mr-1" /> {t.createGroup}
+                            </button>
+                        </div>
                     </div>
-                    <button class="friend-btn" onclick="openDialog('${friendId}')">Написать</button>
-                    <button class="friend-btn remove" onclick="removeFriend('${friendId}')">Удалить</button>
-                `;
-                friendsList.appendChild(friendEl);
-            }
-        }
-        
-        if (Object.keys(friendIds).length === 0) {
-            friendsList.innerHTML = '<div class="empty-state">У вас пока нет друзей</div>';
-        }
-    });
-}
 
-async function loadDialogs() {
-    const friendsRef = dbRef(db, `friends/${currentUser.id}`);
-    dbOnValue(friendsRef, async (snapshot) => {
-        const friendIds = snapshot.val() || {};
-        const dialogsList = document.getElementById('dialogs-list');
-        dialogsList.innerHTML = '';
-        
-        for (const friendId in friendIds) {
-            const userSnapshot = await dbGet(dbRef(db, `users/${friendId}`));
-            const user = userSnapshot.val();
-            
-            if (user) {
-                const dialogEl = document.createElement('div');
-                dialogEl.className = 'dialog-item';
-                dialogEl.innerHTML = `
-                    <div class="dialog-avatar">${getAvatar(user.name)}</div>
-                    <span>${user.name}</span>
-                `;
-                dialogEl.onclick = () => openDialog(friendId);
-                dialogsList.appendChild(dialogEl);
-            }
-        }
-    });
-}
+                    {/* Chat Area */}
+                    <div className="flex-1 flex flex-col">
+                        {!activeChatId ? (
+                            <div className="flex-1 flex items-center justify-center">
+                                <p className={`text-lg ${isDark ? "text-slate-500" : "text-slate-400"}`}>{t.selectChat}</p>
+                            </div>
+                        ) : (
+                            <>
+                                {/* Header */}
+                                <div className={`h-16 flex-shrink-0 flex items-center justify-between px-4 border-b ${isDark ? "bg-vibm-dark-sidebar border-white/5" : "bg-white border-slate-100"}`}>
+                                    <h2 className="font-bold">{chats.find(c => c.id === activeChatId)?.name}</h2>
+                                    <div className="flex gap-2">
+                                        {chats.find(c => c.id === activeChatId)?.type === 'group' && (
+                                            <>
+                                                <button onClick={startGroupCall} className="p-2 hover:bg-vibm-purple/10 rounded-full text-vibm-purple" title={t.groupCall}>
+                                                    <Icon name="Users" className="w-5 h-5" />
+                                                </button>
+                                                <button className="p-2 hover:bg-vibm-purple/10 rounded-full text-vibm-purple" title={t.voiceCall}>
+                                                    <Icon name="Phone" className="w-5 h-5" />
+                                                </button>
+                                            </>
+                                        )}
+                                        <button className="p-2 hover:bg-white/5 rounded-full opacity-50">
+                                            <Icon name="MoreVertical" className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                </div>
 
-function updateUnreadCount() {
-    // Placeholder for unread messages count
-    const badge = document.getElementById('unread-badge');
-    badge.textContent = '0';
-    badge.classList.add('hidden');
-}
+                                {/* Messages */}
+                                <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-3">
+                                    {messages.map(msg => (
+                                        <div key={msg.id} className={`flex ${msg.senderId === user.id ? "justify-end" : "justify-start"}`}>
+                                            <div className={`max-w-xs px-4 py-2 rounded-lg ${msg.senderId === user.id ? "bg-vibm-purple text-white" : isDark ? "bg-white/10" : "bg-slate-200"}`}>
+                                                {msg.senderId !== user.id && <p className="text-xs font-bold opacity-70">{msg.senderName}</p>}
+                                                <p className="text-sm">{msg.text}</p>
+                                                <p className="text-xs opacity-50 mt-1">{new Date(msg.timestamp).toLocaleTimeString()}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
 
-window.openDialog = function(friendId) {
-    currentDialog = friendId;
-    document.querySelectorAll('.dialog-item').forEach(item => item.classList.remove('active'));
-    event.target.closest('.dialog-item').classList.add('active');
-    
-    const chatId = [currentUser.id, friendId].sort().join('_');
-    const messagesRef = dbRef(db, `messages/${chatId}`);
-    
-    dbOnValue(messagesRef, async (snapshot) => {
-        const messages = snapshot.val() || {};
-        const messagesList = document.getElementById('messages-list');
-        messagesList.innerHTML = '';
-        
-        const friendSnapshot = await dbGet(dbRef(db, `users/${friendId}`));
-        const friendName = friendSnapshot.val().name;
-        
-        Object.entries(messages).forEach(([id, msg]) => {
-            const messageEl = document.createElement('div');
-            messageEl.className = `message ${msg.userId === currentUser.id ? 'own' : ''}`;
-            messageEl.innerHTML = `
-                <div class="message-avatar">${getAvatar(msg.userId === currentUser.id ? currentUser.name : friendName)}</div>
-                <div class="message-content">
-                    <div class="message-author">${msg.userId === currentUser.id ? 'Вы' : friendName}</div>
-                    <div class="message-text">
-                        ${msg.text || ''}
-                        ${msg.mediaUrl ? `<div class="media-preview"><img src="${msg.mediaUrl}"></div>` : ''}
+                                {/* Call State */}
+                                {callState !== 'idle' && (
+                                    <div className={`p-4 border-t ${isDark ? "bg-vibm-dark-sidebar border-white/5" : "bg-slate-50 border-slate-100"}`}>
+                                        <div className={`p-3 rounded-lg mb-3 ${isDark ? "bg-white/5" : "bg-white"}`}>
+                                            <p className="text-sm font-bold mb-2">{currentCall?.name} - {t.groupCall}</p>
+                                            <div className="flex flex-wrap gap-2 mb-3">
+                                                {groupCallMembers.slice(0, 4).map(memberId => (
+                                                    <div key={memberId} className="w-12 h-12 bg-vibm-purple rounded-full flex items-center justify-center text-white text-xs font-bold">
+                                                        {allUsers[memberId]?.username?.[0] || '?'}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <button onClick={endCall} className="w-full py-2 bg-red-500 text-white rounded-lg font-bold hover:bg-red-600">
+                                                {t.endCall}
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Input */}
+                                <form onSubmit={sendMessage} className={`p-4 border-t flex-shrink-0 ${isDark ? "bg-vibm-dark-sidebar border-white/5" : "bg-white border-slate-100"}`}>
+                                    <div className={`flex gap-2 ${isDark ? "bg-white/5" : "bg-slate-50"} rounded-full px-3 py-2 focus-within:ring-2 focus-within:ring-vibm-purple/20`}>
+                                        <button type="button" className="p-1 opacity-50 hover:opacity-100">
+                                            <Icon name="Smile" className="w-5 h-5" />
+                                        </button>
+                                        <textarea
+                                            ref={textareaRef}
+                                            rows={1}
+                                            placeholder={t.message}
+                                            className="flex-1 bg-transparent border-none focus:ring-0 resize-none max-h-24 custom-scrollbar"
+                                            onChange={(e) => {
+                                                messageInputRef.current = e.target.value;
+                                                e.target.style.height = 'auto';
+                                                e.target.style.height = Math.min(e.target.scrollHeight, 96) + 'px';
+                                            }}
+                                        />
+                                        <button type="submit" className="p-1 text-vibm-purple hover:text-vibm-light-purple">
+                                            <Icon name="Send" className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                </form>
+                            </>
+                        )}
                     </div>
                 </div>
-            `;
-            messagesList.appendChild(messageEl);
-        });
-        
-        messagesList.scrollTop = messagesList.scrollHeight;
-    });
-    
-    document.getElementById('message-input-area').style.display = 'flex';
-};
-
-window.sendMessage = async function() {
-    if (!currentDialog) return;
-    
-    const text = document.getElementById('message-text').value.trim();
-    const file = document.getElementById('message-file').files[0];
-    
-    if (!text && !file) return;
-    
-    let mediaUrl = null;
-    if (file) {
-        const fileRef = storageRef(storage, `messages/${Date.now()}_${file.name}`);
-        await uploadBytes(fileRef, file);
-        mediaUrl = await getDownloadURL(fileRef);
-    }
-    
-    const chatId = [currentUser.id, currentDialog].sort().join('_');
-    const messagesRef = dbRef(db, `messages/${chatId}`);
-    
-    await dbPush(messagesRef, {
-        userId: currentUser.id,
-        text,
-        mediaUrl,
-        timestamp: Date.now()
-    });
-    
-    document.getElementById('message-text').value = '';
-    document.getElementById('message-file').value = '';
-};
-
-window.createStickerPack = async function() {
-    const name = document.getElementById('new-pack-name').value.trim();
-    if (!name) return;
-    
-    const packsRef = dbRef(db, `stickerPacks/${currentUser.id}`);
-    await dbPush(packsRef, {
-        name,
-        stickers: ['😀', '😂', '😍', '🤔', '👍', '🔥', '💯', '🎉']
-    });
-    
-    document.getElementById('new-pack-name').value = '';
-    showToast('Стикерпак создан', 'success');
-};
-
-async function loadStickerPacks() {
-    const packsRef = dbRef(db, `stickerPacks/${currentUser.id}`);
-    dbOnValue(packsRef, (snapshot) => {
-        const packs = snapshot.val() || {};
-        const packsDiv = document.getElementById('sticker-packs');
-        packsDiv.innerHTML = '';
-        
-        Object.entries(packs).forEach(([id, pack]) => {
-            const packEl = document.createElement('div');
-            packEl.className = 'sticker-pack';
-            
-            let stickersHtml = '';
-            (pack.stickers || []).forEach(sticker => {
-                stickersHtml += `<div class="sticker-item">${sticker}</div>`;
-            });
-            
-            packEl.innerHTML = `
-                <div class="sticker-pack-name">${pack.name}</div>
-                <div class="stickers-grid">${stickersHtml}</div>
-            `;
-            packsDiv.appendChild(packEl);
-        });
-        
-        if (Object.keys(packs).length === 0) {
-            packsDiv.innerHTML = '<div class="empty-state">У вас пока нет стикерпаков</div>';
+            );
         }
-    });
-}
 
-async function loadCallFriends() {
-    const friendsRef = dbRef(db, `friends/${currentUser.id}`);
-    const snapshot = await dbGet(friendsRef);
-    const friendIds = snapshot.val() || {};
-    const callList = document.getElementById('call-friends-list');
-    callList.innerHTML = '';
-    
-    for (const friendId in friendIds) {
-        const userSnapshot = await dbGet(dbRef(db, `users/${friendId}`));
-        const user = userSnapshot.val();
-        
-        if (user) {
-            const btn = document.createElement('button');
-            btn.className = 'call-btn';
-            btn.textContent = `Позвонить ${user.name}`;
-            btn.onclick = () => startCall(friendId, user.name);
-            callList.appendChild(btn);
-        }
-    }
-    
-    if (Object.keys(friendIds).length === 0) {
-        callList.innerHTML = '<div class="empty-state">У вас пока нет друзей для звонков</div>';
-    }
-}
-
-let localStream = null;
-let peerConnection = null;
-let currentCallFriend = null;
-let isMuted = false;
-let isCameraOff = false;
-
-window.startCall = async function(friendId, friendName) {
-    currentCallFriend = friendId;
-    
-    try {
-        // Запрашиваем доступ к камере и микрофону
-        localStream = await navigator.mediaDevices.getUserMedia({ 
-            video: { width: 1280, height: 720 }, 
-            audio: true 
-        });
-        
-        document.getElementById('local-video').srcObject = localStream;
-        document.getElementById('call-friends-list').classList.add('hidden');
-        document.getElementById('active-call').classList.remove('hidden');
-        document.getElementById('call-partner').textContent = friendName;
-        
-        // Инициализируем WebRTC
-        initPeerConnection();
-        
-        // Отправляем сигнал о звонке через Firebase
-        const callSignal = {\n            from: currentUser.id,\n            fromName: currentUser.name,\n            to: friendId,\n            type: 'offer',\n            timestamp: Date.now(),\n            status: 'calling'\n        };\n        \n        await dbSet(dbRef(db, `calls/${friendId}/${currentUser.id}`), callSignal);\n        \n        // Создаём SDP offer\n        const offer = await peerConnection.createOffer({\n            offerToReceiveAudio: true,\n            offerToReceiveVideo: true\n        });\n        \n        await peerConnection.setLocalDescription(offer);\n        \n        // Сохраняем offer в Firebase для другой стороны\n        await dbSet(dbRef(db, `calls/${friendId}/${currentUser.id}/sdp`), {\n            type: 'offer',\n            sdp: offer.sdp\n        });\n        \n        showToast(`Звоним ${friendName}...`, 'info');\n        \n    } catch (err) {\n        showToast('Ошибка доступа к камере/микрофону: ' + err.message, 'error');\n        endCall();\n    }\n};\n\nfunction initPeerConnection() {\n    peerConnection = new RTCPeerConnection({\n        iceServers: [\n            { urls: 'stun:stun.l.google.com:19302' },\n            { urls: 'stun:stun1.l.google.com:19302' },\n            { urls: 'stun:stun2.l.google.com:19302' },\n            { urls: 'stun:stun3.l.google.com:19302' },\n            { urls: 'stun:stun4.l.google.com:19302' }\n        ]\n    });\n    \n    // Добавляем локальные треки\n    if (localStream) {\n        localStream.getTracks().forEach(track => {\n            peerConnection.addTrack(track, localStream);\n        });\n    }\n    \n    // Слушаем удалённые треки\n    peerConnection.ontrack = (event) => {\n        console.log('Получен удалённый трек:', event.track.kind);\n        if (!document.getElementById('remote-video').srcObject) {\n            document.getElementById('remote-video').srcObject = event.streams[0];\n        }\n    };\n    \n    // ICE кандидаты\n    peerConnection.onicecandidate = (event) => {\n        if (event.candidate) {\n            const candidate = {\n                candidate: event.candidate.candidate,\n                sdpMLineIndex: event.candidate.sdpMLineIndex,\n                sdpMid: event.candidate.sdpMid\n            };\n            dbSet(dbRef(db, `calls/${currentCallFriend}/${currentUser.id}/candidates/${Date.now()}`), candidate);\n        }\n    };\n    \n    peerConnection.onconnectionstatechange = () => {\n        console.log('Статус подключения:', peerConnection.connectionState);\n        if (peerConnection.connectionState === 'connected') {\n            showToast('Звонок установлен', 'success');\n        } else if (peerConnection.connectionState === 'failed' || peerConnection.connectionState === 'disconnected') {\n            showToast('Потеря соединения', 'error');\n        }\n    };\n}\n\nwindow.toggleMute = function() {\n    if (localStream) {\n        localStream.getAudioTracks().forEach(track => {\n            isMuted = !isMuted;\n            track.enabled = !isMuted;\n        });\n        const btn = document.getElementById('mute-btn');\n        btn.textContent = isMuted ? '🔇 Микро выкл' : '🎤 Микро';\n        btn.style.background = isMuted ? '#ff9800' : '#4cae4c';\n    }\n};\n\nwindow.toggleCamera = function() {\n    if (localStream) {\n        localStream.getVideoTracks().forEach(track => {\n            isCameraOff = !isCameraOff;\n            track.enabled = !isCameraOff;\n        });\n        const btn = document.getElementById('camera-btn');\n        btn.textContent = isCameraOff ? '📹❌ Камера выкл' : '📹 Камера';\n        btn.style.background = isCameraOff ? '#f44336' : '#2196f3';\n    }\n};\n\nwindow.endCall = function() {\n    // Останавливаем все треки\n    if (localStream) {\n        localStream.getTracks().forEach(track => track.stop());\n        localStream = null;\n    }\n    \n    // Закрываем PeerConnection\n    if (peerConnection) {\n        peerConnection.close();\n        peerConnection = null;\n    }\n    \n    // Очищаем видео\n    document.getElementById('local-video').srcObject = null;\n    document.getElementById('remote-video').srcObject = null;\n    \n    // Удаляем записи звонка из Firebase\n    if (currentCallFriend) {\n        dbRemove(dbRef(db, `calls/${currentCallFriend}/${currentUser.id}`));\n        dbRemove(dbRef(db, `calls/${currentUser.id}/${currentCallFriend}`));\n    }\n    \n    currentCallFriend = null;\n    isMuted = false;\n    isCameraOff = false;\n    \n    document.getElementById('call-friends-list').classList.remove('hidden');\n    document.getElementById('active-call').classList.add('hidden');\n    showToast('Звонок завершён', 'success');\n};\n\n// Слушаем входящие звонки\nfunction listenForIncomingCalls() {\n    if (!currentUser) return;\n    \n    dbOnValue(dbRef(db, `calls/${currentUser.id}`), async (snapshot) => {\n        const calls = snapshot.val() || {};\n        \n        Object.entries(calls).forEach(async ([callerId, callData]) => {\n            if (callData.status === 'calling' && !document.getElementById('active-call').classList.contains('hidden')) {\n                return; // Уже в звонке\n            }\n            \n            if (callData.status === 'calling' && callData.sdp) {\n                // Входящий звонок\n                const callerUser = (await dbGet(dbRef(db, `users/${callerId}`))).val();\n                \n                const acceptCall = confirm(`${callerUser.name} звонит вам. Принять?`);\n                \n                if (acceptCall) {\n                    try {\n                        // Получаем доступ к камере\n                        localStream = await navigator.mediaDevices.getUserMedia({ \n                            video: { width: 1280, height: 720 }, \n                            audio: true \n                        });\n                        \n                        document.getElementById('local-video').srcObject = localStream;\n                        document.getElementById('call-friends-list').classList.add('hidden');\n                        document.getElementById('active-call').classList.remove('hidden');\n                        document.getElementById('call-partner').textContent = callerUser.name;\n                        \n                        currentCallFriend = callerId;\n                        \n                        // Инициализируем PeerConnection\n                        initPeerConnection();\n                        \n                        // Устанавливаем удалённое описание (offer)\n                        await peerConnection.setRemoteDescription(\n                            new RTCSessionDescription({\n                                type: 'offer',\n                                sdp: callData.sdp.sdp\n                            })\n                        );\n                        \n                        // Создаём и отправляем answer\n                        const answer = await peerConnection.createAnswer();\n                        await peerConnection.setLocalDescription(answer);\n                        \n                        await dbSet(dbRef(db, `calls/${callerId}/${currentUser.id}/sdp`), {\n                            type: 'answer',\n                            sdp: answer.sdp\n                        });\n                        \n                        // Обновляем статус звонка\n                        await dbUpdate(dbRef(db, `calls/${currentUser.id}/${callerId}`), { status: 'accepted' });\n                        \n                        showToast('Звонок принят', 'success');\n                        \n                    } catch (err) {\n                        showToast('Ошибка при принятии звонка: ' + err.message, 'error');\n                        endCall();\n                    }\n                } else {\n                    // Отклоняем звонок\n                    await dbRemove(dbRef(db, `calls/${currentUser.id}/${callerId}`));\n                }\n            }\n        });\n    });\n}\n\n// Стартуем слушатель входящих звонков при логине\nconst originalLogin = window.login;\nwindow.login = async function() {\n    await originalLogin();\n    setTimeout(listenForIncomingCalls, 1000);\n};
-
-if (currentUser) {
-    loadGlobalFeed();
-    loadWall();
-    loadFriends();
-    loadDialogs();
-    loadStickerPacks();
-}
-</script>
-
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
 </body>
 </html>
